@@ -1,5 +1,6 @@
 import {
   CheckBox,
+  KeyboardAvoidingView,
   Picker,
   StyleSheet,
   Text,
@@ -18,12 +19,22 @@ export default class BankPoint extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: '',
+      name: '',
       individual: false,
       family: false,
       ong: false,
+      country: '',
+      province: '',
+      district: '',
+      city: '',
+      town: '',
+      buildingAddress: '',
+      time: '',
+      term: '',
+      image: '',
     };
   }
+  setSelectedValue = () => {};
   render() {
     return (
       <View>
@@ -35,98 +46,113 @@ export default class BankPoint extends Component {
             (Complete the data and geolocate the bank)
           </Text>
         </View>
-        <View style={styles.subContainerStyle}>
-          <Text style={styles.detailTextStyle}>Nambre (Name)</Text>
-          <Text style={styles.detailTextStyle}>
-            Nombre del responsable (Responsible name)
-          </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <View style={styles.subContainerStyle}>
+            <Text style={styles.detailTextStyle}>Nambre (Name)</Text>
+            <Text style={styles.detailTextStyle}>
+              Nombre del responsable (Responsible name)
+            </Text>
 
+            <TextInput
+              value={this.state.name}
+              onChangeText={(name) => this.setState({name})}
+              placeholder={'George Woalock '}
+              style={styles.placeholderStyle}
+            />
+          </View>
+          <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
+            Proporcione los datos de ubicación:
+          </Text>
+          <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
+            (Provide location data)
+          </Text>
+          <View style={styles.boxContainerSTyle}>
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={styles.placeholderStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setSelectedValue(itemValue)
+              }>
+              <Picker.Item label="País (country)" value="País (country)" />
+              <Picker.Item label="some" value="some" />
+            </Picker>
+          </View>
+          <View style={styles.boxContainerSTyle}>
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={styles.placeholderStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setSelectedValue(itemValue)
+              }>
+              <Picker.Item
+                label="Provincia  (Province o State)"
+                value="Provincia  (Province o State)"
+              />
+              <Picker.Item label="some" value="some" />
+            </Picker>
+          </View>
+          <View style={styles.boxContainerSTyle}>
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={styles.placeholderStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setSelectedValue(itemValue)
+              }>
+              <Picker.Item
+                label="Distrito (Distric)"
+                value="Distrito (Distric)"
+              />
+              <Picker.Item label="some" value="some" />
+            </Picker>
+          </View>
+          <View style={styles.boxContainerSTyle}>
+            <Picker
+              selectedValue={this.state.selectedValue}
+              style={styles.placeholderStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                this.setSelectedValue(itemValue)
+              }>
+              <Picker.Item
+                label="Corregimiento (city)"
+                value="Corregimiento (city)"
+              />
+              <Picker.Item label="some" value="some" />
+            </Picker>
+          </View>
           <TextInput
-            placeholder={'George Woalock '}
+            value={this.state.town}
+            onChangeText={(town) => this.setState({town})}
+            placeholder={'Barrio / Poblado (Town)'}
             style={styles.placeholderStyle}
           />
-        </View>
-        <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
-          Proporcione los datos de ubicación:
-        </Text>
-        <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
-          (Provide location data)
-        </Text>
-        <View style={styles.boxContainerSTyle}>
-          <Picker
-            selectedValue={this.state.selectedValue}
+          <TextInput
+            value={this.state.buildingAddress}
+            onChangeText={(buildingAddress) => this.setState({buildingAddress})}
+            placeholder={'Casa o Ediﬁcio (# House or Building)'}
             style={styles.placeholderStyle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }>
-            <Picker.Item label="País (country)" value="País (country)" />
-            <Picker.Item label="some" value="some" />
-          </Picker>
-        </View>
-        <View style={styles.boxContainerSTyle}>
-          <Picker
-            selectedValue={this.state.selectedValue}
+          />
+          <TextInput
+            value={this.state.time}
+            onChangeText={(time) => this.setState({time})}
+            placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
             style={styles.placeholderStyle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }>
-            <Picker.Item
-              label="Provincia  (Province o State)"
-              value="Provincia  (Province o State)"
-            />
-            <Picker.Item label="some" value="some" />
-          </Picker>
-        </View>
-        <View style={styles.boxContainerSTyle}>
-          <Picker
-            selectedValue={this.state.selectedValue}
+          />
+          <TextInput
+            value={this.state.term}
+            onChangeText={(term) => this.setState({term})}
+            placeholder={'Condiciones de uso (Terms of use) '}
             style={styles.placeholderStyle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }>
-            <Picker.Item
-              label="Distrito (Distric)"
-              value="Distrito (Distric)"
-            />
-            <Picker.Item label="some" value="some" />
-          </Picker>
-        </View>
-        <View style={styles.boxContainerSTyle}>
-          <Picker
-            selectedValue={this.state.selectedValue}
+          />
+          <TextInput
+            value={this.state.image}
+            onChangeText={(image) => this.setState({image})}
+            placeholder={
+              'Proporcionar una foto del banco (Provide a photo of the bank)'
+            }
             style={styles.placeholderStyle}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }>
-            <Picker.Item
-              label="Corregimiento (city)"
-              value="Corregimiento (city)"
-            />
-            <Picker.Item label="some" value="some" />
-          </Picker>
-        </View>
-        <TextInput
-          placeholder={'Barrio / Poblado (Town)'}
-          style={styles.placeholderStyle}
-        />
-        <TextInput
-          placeholder={'Casa o Ediﬁcio (# House or Building)'}
-          style={styles.placeholderStyle}
-        />
-        <TextInput
-          placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
-          style={styles.placeholderStyle}
-        />
-        <TextInput
-          placeholder={'Condiciones de uso (Terms of use) '}
-          style={styles.placeholderStyle}
-        />
-        <TextInput
-          placeholder={
-            'Proporcionar una foto del banco (Provide a photo of the bank)'
-          }
-          style={styles.placeholderStyle}
-        />
+          />
+        </KeyboardAvoidingView>
       </View>
     );
   }

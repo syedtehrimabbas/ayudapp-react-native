@@ -21,6 +21,7 @@ export default class IndividualHelperForm extends Component {
       selectedValue: '',
     };
   }
+  setSelectedValue = () => {};
   render() {
     return (
       <View>
@@ -81,7 +82,7 @@ export default class IndividualHelperForm extends Component {
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+              this.setSelectedValue(itemValue)
             }>
             <Picker.Item label="Pais (country)" value="Pais (country)" />
             <Picker.Item label="some" value="some" />
@@ -92,7 +93,7 @@ export default class IndividualHelperForm extends Component {
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+              this.setSelectedValue(itemValue)
             }>
             <Picker.Item
               label="Provincia (Province o State)"
@@ -106,7 +107,7 @@ export default class IndividualHelperForm extends Component {
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+              this.setSelectedValue(itemValue)
             }>
             <Picker.Item
               label="Distrito (Distric)"
@@ -120,7 +121,7 @@ export default class IndividualHelperForm extends Component {
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
+              this.setSelectedValue(itemValue)
             }>
             <Picker.Item label="Corregimiento" value="Corregimiento" />
             <Picker.Item label="some" value="some" />

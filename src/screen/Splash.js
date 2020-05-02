@@ -22,7 +22,7 @@ export default class Splash extends Component {
           source={Images.logo}
         />
         <Text style={styles.descriptionTextStyle}>
-          BLenvenido a Ayudapp una aplication de gente ayudando a los mas
+          Bienvenido a Ayudapp una aplicación de gente ayudando a los más
           necesitados
         </Text>
       </View>

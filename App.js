@@ -7,11 +7,11 @@ import BioDataForm from './src/screen/BioDataForm';
 import Home from './src/screen/Home';
 import IndividualHelperForm from './src/screen/IndividualHelperForm';
 import Login from './src/screen/Login';
-import LoginCategory from './src/screen/LoginCategory';
 import NeedyForm from './src/screen/NeedyForm';
 import Requests from './src/screen/Requests';
 import RequsetForm from './src/screen/RequsetForm';
 import Splash from './src/screen/Splash';
+import UserCategory from './src/screen/UserCategory';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 
@@ -22,19 +22,19 @@ export default class App extends Component {
     return <AppContainer />;
   }
 }
-const HomeStackNavigator = createBottomTabNavigator(
-  {
-    Home: {
-      screen: Home,
-    },
-    Requests: {
-      screen: Requests,
-    },
-  },
-  {
-    headerMode: 'none',
-  },
-);
+// const HomeStackNavigator = createBottomTabNavigator(
+//   {
+//     Home: {
+//       screen: Home,
+//     },
+//     Requests: {
+//       screen: Requests,
+//     },
+//   },
+//   {
+//     headerMode: 'none',
+//   },
+// );
 const LoginStackNavigator = createStackNavigator(
   {
     Splash: {
@@ -46,8 +46,11 @@ const LoginStackNavigator = createStackNavigator(
     BioDataForm: {
       screen: BioDataForm,
     },
-    LoginCategory: {
-      screen: LoginCategory,
+    UserCategory: {
+      screen: UserCategory,
+    },
+    Home: {
+      screen: Home,
     },
     IndividualHelperForm: {
       screen: IndividualHelperForm,
@@ -62,6 +65,6 @@ const LoginStackNavigator = createStackNavigator(
 );
 const mainStackNavigator = createSwitchNavigator({
   LoginStackNavigator,
-  HomeStackNavigator,
+  // HomeStackNavigator,
 });
 const AppContainer = createAppContainer(mainStackNavigator);

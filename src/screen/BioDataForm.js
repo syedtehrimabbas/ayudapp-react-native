@@ -1,5 +1,6 @@
 import {
   CheckBox,
+  Image,
   KeyboardAvoidingView,
   Picker,
   StyleSheet,
@@ -14,6 +15,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import CommmonButton from './CommonButton';
+import Images from '../Image/Images';
 import countryArray from '..//JSONfILES/country';
 
 export default class BioDataForm extends Component {
@@ -22,8 +24,21 @@ export default class BioDataForm extends Component {
     this.state = {
       selectedValue: '',
       isSelected: false,
+      fname: '',
+      lname: '',
+      phone: '',
+      otherPhone: '',
+      country: '',
+      province: '',
+      district: '',
+      city: '',
+      town: '',
+      building: '',
+      time: '',
+      image: '',
     };
   }
+  setSelectedValue = () => {};
   render() {
     return (
       <View>
@@ -34,18 +49,26 @@ export default class BioDataForm extends Component {
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
           <ScrollView style={{height: hp(57)}}>
             <TextInput
+              value={this.state.fname}
+              onChangeText={(fname) => this.setState({fname})}
               placeholder={'Primer nombre'}
               style={styles.placeholderStyle}
             />
             <TextInput
+              value={this.state.lname}
+              onChangeText={(lname) => this.setState({lname})}
               placeholder={'Apellido'}
               style={styles.placeholderStyle}
             />
             <TextInput
+              value={this.state.phone}
+              onChangeText={(phone) => this.setState({phone})}
               placeholder={'Numero celular'}
               style={styles.placeholderStyle}
             />
             <TextInput
+              value={this.state.otherPhone}
+              onChangeText={(otherPhone) => this.setState({otherPhone})}
               placeholder={'Primer nombre'}
               style={styles.placeholderStyle}
             />
@@ -54,7 +77,7 @@ export default class BioDataForm extends Component {
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
+                  this.setSelectedValue(itemValue)
                 }>
                 {countryArray.map((i) => {
                   return <Picker.Item label={i.name} value={i.name} />;
@@ -66,7 +89,7 @@ export default class BioDataForm extends Component {
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
+                  this.setSelectedValue(itemValue)
                 }>
                 {countryArray.map((i) => {
                   return <Picker.Item label={i.name} value={i.name} />;
@@ -78,7 +101,7 @@ export default class BioDataForm extends Component {
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
+                  this.setSelectedValue(itemValue)
                 }>
                 {countryArray.map((i) => {
                   return <Picker.Item label={i.name} value={i.name} />;
@@ -90,7 +113,7 @@ export default class BioDataForm extends Component {
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
+                  this.setSelectedValue(itemValue)
                 }>
                 {countryArray.map((i) => {
                   return <Picker.Item label={i.name} value={i.name} />;
@@ -98,19 +121,29 @@ export default class BioDataForm extends Component {
               </Picker>
             </View>
             <TextInput
-              placeholder={'Primer nombre'}
+              value={this.state.town}
+              onChangeText={(town) => this.setState({town})}
+              placeholder={'Barrio / Poblado (Town)'}
               style={styles.placeholderStyle}
             />
             <TextInput
-              placeholder={'Primer nombre'}
+              value={this.state.building}
+              onChangeText={(building) => this.setState({building})}
+              placeholder={'Casa o Ediﬁcio (# House or Building)'}
               style={styles.placeholderStyle}
             />
             <TextInput
-              placeholder={'Primer nombre'}
+              value={this.state.time}
+              onChangeText={(time) => this.setState({time})}
+              placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
               style={styles.placeholderStyle}
             />
             <TextInput
-              placeholder={'Primer nombre'}
+              value={this.state.image}
+              onChangeText={(image) => this.setState({image})}
+              placeholder={
+                'Proporcionar una foto para el perﬁl (Provide a photo for the proﬁle)'
+              }
               style={styles.placeholderStyle}
             />
           </ScrollView>
@@ -132,9 +165,9 @@ export default class BioDataForm extends Component {
               width: wp(90),
               textAlign: 'center',
             }}>
-            La informacion proporionada es real acepto que Ayudapp pueda
-            revisar, aprobar y garantizar que la informacion que estoy
-            suministrando no afecte a terceras ersonas.
+            La información proporcionada es real Acepto que Ayudapp pueda
+            revisar, aprobar y garantizar que la información que estoy
+            suministrando no afecte a terceras personas.
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <CheckBox
@@ -145,11 +178,25 @@ export default class BioDataForm extends Component {
               style={styles.checkbox}
             />
             <Text style={{width: wp(80), fontSize: wp(5), marginTop: hp(2)}}>
-              Acepto las condiciones y terminos de uso de Ayudapp
+              Acepto las condiciones y términos de uso de Ayudapp
             </Text>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'center',
+            }}>
+            <Text style={{textDecorationLine: 'underline'}}>Verifiy</Text>
+            <Image
+              resizeMode="contain"
+              style={styles.googleimageStyle}
+              source={Images.google}
+            />
+          </View>
+
           <CommmonButton
-            onPress={() => this.props.navigation.navigate('LoginCategory')}
+            onPress={() => this.props.navigation.navigate('UserCategory')}
             style={{
               paddingTop: hp(1),
               backgroundColor: 'tomato',
@@ -191,5 +238,12 @@ const styles = StyleSheet.create({
   checkbox: {
     marginLeft: wp(5),
     marginTop: hp(1),
+  },
+  googleimageStyle: {
+    width: wp(10),
+    height: hp(4),
+    marginTop: hp(1),
+    alignSelf: 'center',
+    marginLeft: wp(1),
   },
 });

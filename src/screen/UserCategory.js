@@ -30,7 +30,7 @@ let button = [
     color: '#4287f5',
   },
 ];
-export default class LoginCategory extends Component {
+export default class UserCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -39,7 +39,7 @@ export default class LoginCategory extends Component {
     return (
       <View>
         <View style={styles.headerStyle}>
-          <Text style={styles.headerStyleText}>?Que deseas hacer?</Text>
+          <Text style={styles.headerStyleText}>¿Qué deseas hacer? </Text>
           <Text style={styles.headerStyleTextSub}>You want to do?</Text>
         </View>
         <View>
@@ -71,11 +71,11 @@ export default class LoginCategory extends Component {
   };
   onButtonPress = (id) => {
     if (id === 1) {
-      this.props.navigation.navigate('HomeStackNavigator');
+      this.props.navigation.navigate('Home');
     } else if (id === 2) {
       this.props.navigation.navigate('IndividualHelperForm');
     } else if (id === 3) {
-      this.props.navigation.navigate('HomeStackNavigatorForCompany');
+      this.props.navigation.navigate('IndividualHelperForm');
     } else if (id === 4) {
       this.props.navigation.navigate('BankPoint');
     }
