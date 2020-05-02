@@ -14,7 +14,6 @@ import auth from '@react-native-firebase/auth';
 
 export default class Login extends Component {
   componentDidMount() {
-    this.fetchDAte();
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId:
@@ -22,21 +21,7 @@ export default class Login extends Component {
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }
-  fetchDAte = async () => {
-    console.log('fetchakajkfjds');
 
-    const response = await fetch(
-      'https://parseapi.back4app.com/classes/Continentscountriescities_Country?count=1&limit=250',
-      {
-        headers: {
-          'X-Parse-Application-Id': 'dKmwraMd0tHAEnJlhe4nbHpn6MkfntZ4dwNxcGMq', // This is your app's application id
-          'X-Parse-REST-API-Key': 'cGkjXTHyYujFvDUzA7GOv66nDFhTsBvsIuIX4mUM', // This is your app's REST API key
-        },
-      },
-    );
-    const data = await response.json(); // Here you have the data that you need
-    console.log(data);
-  };
   render() {
     return (
       <View style={{heigth: hp(100)}}>

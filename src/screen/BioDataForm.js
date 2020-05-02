@@ -16,6 +16,7 @@ import {
 
 import CommmonButton from './CommonButton';
 import Images from '../Image/Images';
+import Services from '../FireServices/FireServices';
 import countryArray from '..//JSONfILES/country';
 
 export default class BioDataForm extends Component {
@@ -39,6 +40,16 @@ export default class BioDataForm extends Component {
     };
   }
   setSelectedValue = () => {};
+  componentDidMount() {
+    Services.getTockenForUniversalApi((res) => {
+      console.log('token', res);
+      if (res.isSuccess) {
+        Services.fetchCountries(res.token, (countries) => {
+          console.log('console', countries);
+        });
+      }
+    });
+  }
   render() {
     return (
       <View>

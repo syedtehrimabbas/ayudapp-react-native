@@ -29,7 +29,6 @@ export default class Home extends Component {
       ageRange3: '',
       ageRange4: '',
       ageRange5: '',
-
       coronaDisease: false,
       soap: false,
       egg: false,

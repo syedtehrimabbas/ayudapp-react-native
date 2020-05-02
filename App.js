@@ -37,9 +37,9 @@ export default class App extends Component {
 // );
 const LoginStackNavigator = createStackNavigator(
   {
-    Splash: {
-      screen: Splash,
-    },
+    // Splash: {
+    //   screen: Splash,
+    // },
     Login: {
       screen: Login,
     },
