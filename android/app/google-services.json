@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1063381046055",
+    "firebase_url": "https://ayudapp-b2fc3.firebaseio.com",
+    "project_id": "ayudapp-b2fc3",
+    "storage_bucket": "ayudapp-b2fc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063381046055:android:7b9146759bde6c7948cf02",
+        "android_client_info": {
+          "package_name": "com.ayudapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063381046055-e55l58se6g6mbhvm3ibeifhh86e8esv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVMwujPRrFku8fS02pJ-sqUuXrWRQ6O8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063381046055-e55l58se6g6mbhvm3ibeifhh86e8esv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
