@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 import BankPoint from './src/screen/BankPoint';
@@ -18,14 +18,49 @@ import {createStackNavigator} from 'react-navigation-stack';
 console.disableYellowBox = true;
 
 export default class App extends Component {
+  componentDidMount() {
+    requestCameraPermission = async () => {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Cool Photo App Camera Permission',
+            message:
+              'Cool Photo App needs access to your camera ' +
+              'so you can take awesome pictures.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use the camera');
+        } else {
+          console.log('Camera permission denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+  }
   render() {
     return <AppContainer />;
   }
 }
-// const HomeStackNavigator = createBottomTabNavigator(
+
+// const HomeStackNavigator = createStackNavigator(
 //   {
+//     UserCategory: {
+//       screen: UserCategory,
+//     },
 //     Home: {
 //       screen: Home,
+//     },
+//     IndividualHelperForm: {
+//       screen: IndividualHelperForm,
+//     },
+//     BankPoint: {
+//       screen: BankPoint,
 //     },
 //     Requests: {
 //       screen: Requests,
@@ -37,26 +72,29 @@ export default class App extends Component {
 // );
 const LoginStackNavigator = createStackNavigator(
   {
-    // Splash: {
-    //   screen: Splash,
-    // },
+    Splash: {
+      screen: Splash,
+    },
     Login: {
       screen: Login,
     },
     BioDataForm: {
       screen: BioDataForm,
     },
-    UserCategory: {
-      screen: UserCategory,
-    },
     Home: {
       screen: Home,
+    },
+    UserCategory: {
+      screen: UserCategory,
     },
     IndividualHelperForm: {
       screen: IndividualHelperForm,
     },
     BankPoint: {
       screen: BankPoint,
+    },
+    Requests: {
+      screen: Requests,
     },
   },
   {
@@ -67,4 +105,4 @@ const mainStackNavigator = createSwitchNavigator({
   LoginStackNavigator,
   // HomeStackNavigator,
 });
-const AppContainer = createAppContainer(mainStackNavigator);
+const AppContainer = createAppContainer(LoginStackNavigator);

@@ -1,19 +1,42 @@
 import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import CommmonButton from './CommonButton';
 import Images from '../Image/Images';
+import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 
 export default class Login extends Component {
   componentDidMount() {
+    async function requestLocationPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message:
+              'This App needs access to your location ' +
+              'so we can know where you are.',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use locations ');
+        } else {
+          console.log('Location permission denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId:
@@ -21,6 +44,7 @@ export default class Login extends Component {
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }
+  state = {loading: false};
 
   render() {
     return (
@@ -74,11 +98,13 @@ export default class Login extends Component {
               source={Images.google}
             />
           </TouchableOpacity>
+          <Loader loading={this.state.loading} />
         </View>
       </View>
     );
   }
   onGoogleSignIn = async () => {
+    this.setState({loading: true});
     await GoogleSignin.signIn()
       .then((data) => {
         console.log('-------data-------', data);
@@ -89,11 +115,21 @@ export default class Login extends Component {
         return auth().signInWithCredential(credential);
       })
       .then((user) => {
-        console.log('-------User-------', user);
-        this.props.navigation.navigate('BioDataForm');
+        this.setState({loading: false});
+        console.log('-------User-------', user.user._user.uid);
+        Services.serUserProfile(user.user._user, (profile) => {
+          console.log('profile', profile);
+          if (profile.isSuccess) {
+            this.props.navigation.navigate('BioDataForm', {
+              id: user.user._user.uid,
+            });
+          }
+        });
       })
       .catch((error) => {
         console.log('-------error-------');
+        this.setState({loading: false});
+
         console.log(error);
       });
   };

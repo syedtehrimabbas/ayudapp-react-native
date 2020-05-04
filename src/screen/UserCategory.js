@@ -7,6 +7,7 @@ import {
 
 import CommmonButton from './CommonButton';
 import {FlatList} from 'react-native-gesture-handler';
+import Services from '../FireServices/FireServices';
 
 let button = [
   {
@@ -30,6 +31,7 @@ let button = [
     color: '#4287f5',
   },
 ];
+let userStatus = '';
 export default class UserCategory extends Component {
   constructor(props) {
     super(props);
@@ -71,13 +73,33 @@ export default class UserCategory extends Component {
   };
   onButtonPress = (id) => {
     if (id === 1) {
-      this.props.navigation.navigate('Home');
+      userStatus = 'Needy';
+      Services.updateUserStatus(userStatus, (res) => {
+        if (res.isSuccess) {
+          this.props.navigation.navigate('Home', {type: userStatus});
+        }
+      });
     } else if (id === 2) {
-      this.props.navigation.navigate('IndividualHelperForm');
+      userStatus = 'IndevidualHelper';
+      Services.updateUserStatus(userStatus, (res) => {
+        if (res.isSuccess) {
+          this.props.navigation.navigate('IndividualHelperForm');
+        }
+      });
     } else if (id === 3) {
-      this.props.navigation.navigate('IndividualHelperForm');
+      userStatus = 'CompanyHelper';
+      Services.updateUserStatus(userStatus, (res) => {
+        if (res.isSuccess) {
+          this.props.navigation.navigate('IndividualHelperForm');
+        }
+      });
     } else if (id === 4) {
-      this.props.navigation.navigate('BankPoint');
+      userStatus = 'BankPoint';
+      Services.updateUserStatus(userStatus, (res) => {
+        if (res.isSuccess) {
+          this.props.navigation.navigate('BankPoint', {type: userStatus});
+        }
+      });
     }
   };
 }

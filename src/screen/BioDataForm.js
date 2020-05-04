@@ -14,8 +14,10 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import CommmonButton from './CommonButton';
 import Images from '../Image/Images';
+import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
 import countryArray from '..//JSONfILES/country';
 
@@ -23,7 +25,8 @@ export default class BioDataForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: '',
+      selectedValueCountry: '',
+      selectedValueState: '',
       isSelected: false,
       fname: '',
       lname: '',
@@ -37,28 +40,87 @@ export default class BioDataForm extends Component {
       building: '',
       time: '',
       image: '',
+      countries: [],
+      states: [],
+      citiesList: [],
+      loading: false,
+
+      // userId: this.props.navigation.state.params.id,
+      userId: this.props.navigation.state.params.id,
+      confirmation: false,
     };
+    console.log('ppppppppp', this.props);
   }
-  setSelectedValue = () => {};
+
+  onSubmitButtonPress = () => {
+    this.setState({loading: true});
+    const {
+      fname,
+      lname,
+      phone,
+      otherPhone,
+      country,
+      province,
+      district,
+      city,
+      town,
+      building,
+      time,
+      image,
+    } = this.state;
+
+    Services.updateUserBiodata(
+      fname,
+      lname,
+      phone,
+      otherPhone,
+      country,
+      province,
+      district,
+      city,
+      town,
+      building,
+      time,
+      image,
+      (response) => {
+        console.log('biodata', response);
+        if (response.isSuccess) {
+          this.setState({loading: false});
+          AsyncStorage.setItem('USER', this.state.userId);
+          this.props.navigation.navigate('UserCategory');
+        }
+      },
+    );
+  };
+
   componentDidMount() {
     Services.getTockenForUniversalApi((res) => {
-      console.log('token', res);
       if (res.isSuccess) {
         Services.fetchCountries(res.token, (countries) => {
-          console.log('console', countries);
+          console.log('console', countries.data);
+          this.setState({countries: countries.data});
         });
       }
     });
   }
+  onItemValuePick = (value) => {
+    console.log('value', value);
+    this.setState({selectedValueCountry: value});
+    // Services.getStatesAgainstCountry((states) => {
+    //   console.log('states', states);
+    // });
+  };
+
   render() {
     return (
       <View>
         <View style={styles.headerStyle}>
+          <Loader loading={this.state.loading} />
           <Text style={styles.headerStyleText}>COMPLETE SUS DATOS</Text>
         </View>
         <KeyboardAvoidingView
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-          <ScrollView style={{height: hp(57)}}>
+          <ScrollView style={{height: hp(90)}}>
             <TextInput
               value={this.state.fname}
               onChangeText={(fname) => this.setState({fname})}
@@ -85,42 +147,57 @@ export default class BioDataForm extends Component {
             />
             <View style={styles.placeholderStyle}>
               <Picker
-                selectedValue={this.state.selectedValue}
+                selectedValue={this.state.selectedValueCountry}
                 style={styles.placeholderStyle}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setSelectedValue(itemValue)
-                }>
-                {countryArray.map((i) => {
-                  return <Picker.Item label={i.name} value={i.name} />;
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({selectedValueCountry: itemValue});
+                  Services.getStatesFromApi(itemValue, (state) => {
+                    this.setState({states: state.data});
+                  });
+                }}>
+                {this.state.countries.map((i) => {
+                  return (
+                    <Picker.Item
+                      label={i.country_name}
+                      value={i.country_name}
+                    />
+                  );
                 })}
               </Picker>
             </View>
             <View style={styles.placeholderStyle}>
               <Picker
-                selectedValue={this.state.selectedValue}
+                selectedValue={this.state.selectedValueState}
                 style={styles.placeholderStyle}
-                onValueChange={(itemValue, itemIndex) =>
-                  this.setSelectedValue(itemValue)
-                }>
-                {countryArray.map((i) => {
-                  return <Picker.Item label={i.name} value={i.name} />;
+                onValueChange={(state, itemIndex) => {
+                  this.setState({selectedValueState: state});
+                  Services.getCitiesFromApi(state, (cities) => {
+                    this.setState({citiesList: cities.data});
+                  });
+                }}>
+                {this.state.states.map((i) => {
+                  return (
+                    <Picker.Item label={i.state_name} value={i.state_name} />
+                  );
                 })}
               </Picker>
             </View>
             <View style={styles.placeholderStyle}>
               <Picker
-                selectedValue={this.state.selectedValue}
+                selectedValue={this.state.selectedValueState}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  this.setSelectedValue(itemValue)
+                  this.setState({selectedValueState: itemValue})
                 }>
-                {countryArray.map((i) => {
-                  return <Picker.Item label={i.name} value={i.name} />;
+                {this.state.citiesList.map((i) => {
+                  return (
+                    <Picker.Item label={i.city_name} value={i.city_name} />
+                  );
                 })}
               </Picker>
             </View>
             <View style={styles.placeholderStyle}>
-              <Picker
+              {/* <Picker
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
@@ -129,7 +206,7 @@ export default class BioDataForm extends Component {
                 {countryArray.map((i) => {
                   return <Picker.Item label={i.name} value={i.name} />;
                 })}
-              </Picker>
+              </Picker> */}
             </View>
             <TextInput
               value={this.state.town}
@@ -157,75 +234,98 @@ export default class BioDataForm extends Component {
               }
               style={styles.placeholderStyle}
             />
+
+            <View>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  color: 'blue',
+                  fontWeight: 'bold',
+                  fontSize: wp(4),
+                  marginTop: hp(1),
+                }}>
+                TERMINOS DE USO
+              </Text>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  width: wp(90),
+                  textAlign: 'center',
+                }}>
+                La información proporcionada es real Acepto que Ayudapp pueda
+                revisar, aprobar y garantizar que la información que estoy
+                suministrando no afecte a terceras personas.
+              </Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <CheckBox
+                  value={this.state.confirmation}
+                  onValueChange={() =>
+                    this.setState({confirmation: !this.state.confirmation})
+                  }
+                  style={styles.checkbox}
+                />
+                <Text
+                  style={{width: wp(80), fontSize: wp(5), marginTop: hp(2)}}>
+                  Acepto las condiciones y términos de uso de Ayudapp
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                }}>
+                <Text style={{textDecorationLine: 'underline'}}>Verifiy</Text>
+                <Image
+                  resizeMode="contain"
+                  style={styles.googleimageStyle}
+                  source={Images.google}
+                />
+              </View>
+
+              {this.state.confirmation ? (
+                <CommmonButton
+                  //
+                  onPress={this.onSubmitButtonPress}
+                  style={{
+                    paddingTop: hp(1),
+                    backgroundColor: 'tomato',
+                    alignSelf: 'center',
+                    justifyContant: 'center',
+                    alignItems: 'center',
+                    paddingBottom: hp(1),
+                    paddingLeft: wp(7),
+                    paddingRight: wp(7),
+                    marginTop: hp(2),
+                    borderRadius: wp(1),
+                  }}
+                  Text="Submit"
+                />
+              ) : (
+                <CommmonButton
+                  //
+                  style={{
+                    paddingTop: hp(1),
+                    backgroundColor: '#ff9b8a',
+                    alignSelf: 'center',
+                    justifyContant: 'center',
+                    alignItems: 'center',
+                    paddingBottom: hp(1),
+                    paddingLeft: wp(7),
+                    paddingRight: wp(7),
+                    marginTop: hp(2),
+                    borderRadius: wp(1),
+                  }}
+                  Text="Submit"
+                />
+              )}
+            </View>
           </ScrollView>
         </KeyboardAvoidingView>
-        <View>
-          <Text
-            style={{
-              alignSelf: 'center',
-              color: 'blue',
-              fontWeight: 'bold',
-              fontSize: wp(4),
-              marginTop: hp(1),
-            }}>
-            TERMINOS DE USO
-          </Text>
-          <Text
-            style={{
-              alignSelf: 'center',
-              width: wp(90),
-              textAlign: 'center',
-            }}>
-            La información proporcionada es real Acepto que Ayudapp pueda
-            revisar, aprobar y garantizar que la información que estoy
-            suministrando no afecte a terceras personas.
-          </Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <CheckBox
-              value={this.state.isSelected}
-              onValueChange={() =>
-                this.setState({isSelected: !this.state.isSelected})
-              }
-              style={styles.checkbox}
-            />
-            <Text style={{width: wp(80), fontSize: wp(5), marginTop: hp(2)}}>
-              Acepto las condiciones y términos de uso de Ayudapp
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              alignSelf: 'center',
-            }}>
-            <Text style={{textDecorationLine: 'underline'}}>Verifiy</Text>
-            <Image
-              resizeMode="contain"
-              style={styles.googleimageStyle}
-              source={Images.google}
-            />
-          </View>
-
-          <CommmonButton
-            onPress={() => this.props.navigation.navigate('UserCategory')}
-            style={{
-              paddingTop: hp(1),
-              backgroundColor: 'tomato',
-              alignSelf: 'center',
-              justifyContant: 'center',
-              alignItems: 'center',
-              paddingBottom: hp(1),
-              paddingLeft: wp(7),
-              paddingRight: wp(7),
-              marginTop: hp(2),
-              borderRadius: wp(1),
-            }}
-            Text="Submit"
-          />
-        </View>
       </View>
     );
   }
+  setSelectedValue = () => {};
 }
 
 const styles = StyleSheet.create({

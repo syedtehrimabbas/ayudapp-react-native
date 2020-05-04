@@ -5,12 +5,20 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import Images from '../Image/Images';
 
 export default class Splash extends Component {
   componentDidMount() {
     setTimeout(() => {
-      this.props.navigation.navigate('Login');
+      AsyncStorage.getItem('USER').then((res) => {
+        console.log('user id asy', res);
+        if (res !== null) {
+          this.props.navigation.navigate('UserCategory');
+        } else {
+          this.props.navigation.navigate('Login');
+        }
+      });
     }, 1000);
   }
   render() {

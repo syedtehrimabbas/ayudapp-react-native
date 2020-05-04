@@ -13,13 +13,29 @@ import {
 } from 'react-native-responsive-screen';
 
 import {ScrollView} from 'react-native-gesture-handler';
+import Services from '../FireServices/FireServices';
 
 export default class IndividualHelperForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedValue: '',
+      countries: [],
+      states: [],
+      citiesList: [],
+      selectedValueCountry: '',
+      selectedValueState: '',
     };
+  }
+  componentDidMount() {
+    Services.getTockenForUniversalApi((res) => {
+      if (res.isSuccess) {
+        Services.fetchCountries(res.token, (countries) => {
+          console.log('console', countries.data);
+          this.setState({countries: countries.data});
+        });
+      }
+    });
   }
   setSelectedValue = () => {};
   render() {
@@ -78,7 +94,7 @@ export default class IndividualHelperForm extends Component {
           (Find it by filters)
         </Text>
         <View style={styles.boxContainerSTyle}>
-          <Picker
+          {/* <Picker
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
@@ -86,10 +102,25 @@ export default class IndividualHelperForm extends Component {
             }>
             <Picker.Item label="Pais (country)" value="Pais (country)" />
             <Picker.Item label="some" value="some" />
+          </Picker> */}
+          <Picker
+            selectedValue={this.state.selectedValueCountry}
+            style={styles.placeholderStyle}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({selectedValueCountry: itemValue});
+              Services.getStatesFromApi(itemValue, (state) => {
+                this.setState({states: state.data});
+              });
+            }}>
+            {this.state.countries.map((i) => {
+              return (
+                <Picker.Item label={i.country_name} value={i.country_name} />
+              );
+            })}
           </Picker>
         </View>
         <View style={styles.boxContainerSTyle}>
-          <Picker
+          {/* <Picker
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
@@ -100,10 +131,23 @@ export default class IndividualHelperForm extends Component {
               value="Provincia (Province o State)"
             />
             <Picker.Item label="some" value="some" />
+          </Picker> */}
+          <Picker
+            selectedValue={this.state.selectedValueState}
+            style={styles.placeholderStyle}
+            onValueChange={(state, itemIndex) => {
+              this.setState({selectedValueState: state});
+              Services.getCitiesFromApi(state, (cities) => {
+                this.setState({citiesList: cities.data});
+              });
+            }}>
+            {this.state.states.map((i) => {
+              return <Picker.Item label={i.state_name} value={i.state_name} />;
+            })}
           </Picker>
         </View>
         <View style={styles.boxContainerSTyle}>
-          <Picker
+          {/* <Picker
             selectedValue={this.state.selectedValue}
             style={styles.placeholderStyle}
             onValueChange={(itemValue, itemIndex) =>
@@ -114,6 +158,16 @@ export default class IndividualHelperForm extends Component {
               value="Distrito (Distric)"
             />
             <Picker.Item label="some" value="some" />
+          </Picker> */}
+          <Picker
+            selectedValue={this.state.selectedValueState}
+            style={styles.placeholderStyle}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setSelectedValue(itemValue)
+            }>
+            {this.state.citiesList.map((i) => {
+              return <Picker.Item label={i.city_name} value={i.city_name} />;
+            })}
           </Picker>
         </View>
         <View style={styles.boxContainerSTyle}>
