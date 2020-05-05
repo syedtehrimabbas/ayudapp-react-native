@@ -8,7 +8,7 @@ import styles from '../Image/styles';
 // Disable yellow box warning messages
 console.disableYellowBox = true;
 
-export default class App extends Component {
+export default class mapForBank extends Component {
   constructor(props) {
     super(props);
     this.state = {

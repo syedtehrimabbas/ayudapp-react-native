@@ -20,6 +20,7 @@ import Splash from './src/screen/Splash';
 import UserCategory from './src/screen/UserCategory';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import mapForBank from './src/screen/mapForBank';
 
 console.disableYellowBox = true;
 
@@ -89,9 +90,9 @@ const HomeStackNavigator = createBottomTabNavigator({
 });
 const LoginStackNavigator = createStackNavigator(
   {
-    UserCategory: {
-      screen: UserCategory,
-    },
+    // UserCategory: {
+    //   screen: UserCategory,
+    // },
     Splash: {
       screen: Splash,
     },
@@ -100,6 +101,9 @@ const LoginStackNavigator = createStackNavigator(
     },
     BioDataForm: {
       screen: BioDataForm,
+    },
+    mapForBank: {
+      screen: mapForBank,
     },
     Home: {
       screen: HomeStackNavigator,

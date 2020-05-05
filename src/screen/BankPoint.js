@@ -15,7 +15,9 @@ import {
 } from 'react-native-responsive-screen';
 
 import CommmonButton from './CommonButton';
+import FilePickerManager from 'react-native-file-picker';
 import Geolocation from '@react-native-community/geolocation';
+import Images from '../Image/Images';
 import Loader from './Loader';
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
@@ -229,19 +231,20 @@ export default class BankPoint extends Component {
               placeholder={'Condiciones de uso (Terms of use) '}
               style={styles.placeholderStyle}
             />
-            <TextInput
-              value={this.state.image}
-              onChangeText={(image) => this.setState({image})}
-              placeholder={
-                'Proporcionar una foto del banco (Provide a photo of the bank)'
-              }
-              style={styles.placeholderStyle}
-            />
+            <Text
+              style={{
+                color: 'tomato',
+                fontWeight: 'bold',
+                alignSelf: 'center',
+                marginTop: hp(3),
+              }}
+              onPress={() => this.props.navigation.navigate('mapForBank')}>
+              go to google map
+            </Text>
           </ScrollView>
         </KeyboardAvoidingView>
-
         <CommmonButton
-          onPress={this.onButtonPress}
+          onPress={this.filePicker}
           style={{
             paddingTop: hp(2),
             backgroundColor: 'tomato',
@@ -254,11 +257,46 @@ export default class BankPoint extends Component {
             marginTop: hp(5),
             borderRadius: wp(1),
           }}
+          Text="SELECT IMAGE"
+        />
+        <CommmonButton
+          onPress={this.onButtonPress}
+          style={{
+            paddingTop: hp(2),
+            backgroundColor: 'tomato',
+            alignSelf: 'center',
+            justifyContant: 'center',
+            alignItems: 'center',
+            paddingBottom: hp(2),
+            paddingLeft: wp(15),
+            paddingRight: wp(15),
+            marginTop: hp(2),
+            borderRadius: wp(1),
+            marginBottom: hp(3),
+          }}
           Text="SUBMIT"
         />
       </View>
     );
   }
+  filePicker = () => {
+    FilePickerManager.showFilePicker(null, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled file picker');
+      } else if (response.error) {
+        console.log('FilePickerManager Error: ', response.error);
+      } else {
+        Services.uploadImage(response.path, (imageUpload) => {
+          console.log('image', imageUpload);
+        });
+        this.setState({
+          file: response,
+        });
+      }
+    });
+  };
 }
 
 const styles = StyleSheet.create({

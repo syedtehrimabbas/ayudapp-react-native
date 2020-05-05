@@ -1,17 +1,19 @@
-import {ActivityIndicator, Button, Text, View} from 'react-native';
 import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 import Geolocation from '@react-native-community/geolocation';
 import MapView from 'react-native-maps';
-import styles from '../Image/styles';
+import Services from '../FireServices/FireServices';
 
-// Disable yellow box warning messages
-console.disableYellowBox = true;
-
-export default class App extends Component {
+export default class IndividualHelperForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userLocationAll: [],
       loading: true,
       region: {
         latitude: 10,
@@ -25,8 +27,19 @@ export default class App extends Component {
       regionChangeProgress: false,
     };
   }
-
   componentDidMount() {
+    let ArrayLocation = [];
+    Services.getRequestedOrderByUser((res) => {
+      console.log('reeeeeee', res);
+      res.requests.map((i) => {
+        ArrayLocation.push({
+          latitude: i.requests.latitude,
+          longitude: i.requests.longitude,
+        });
+      });
+      console.log('ArrayLocation', ArrayLocation);
+      this.setState({userLocationAll: ArrayLocation});
+    });
     Geolocation.getCurrentPosition(
       (position) => {
         const region = {
@@ -52,117 +65,31 @@ export default class App extends Component {
     );
   }
 
-  onMapReady = () => {
-    this.setState({isMapReady: true, marginTop: 0});
-  };
-
-  // Fetch location details as a JOSN from google map API
-  fetchAddress = () => {
-    fetch(
-      'https://maps.googleapis.com/maps/api/geocode/json?address=' +
-        this.state.region.latitude +
-        ',' +
-        this.state.region.longitude +
-        '&key=' +
-        'AIzaSyBFX4u8subqUhgrNj_4tcFegN32GmA16Y4',
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log('responseJson', responseJson);
-        const userLocation = responseJson.results[0].formatted_address;
-        this.setState({
-          userLocation: userLocation,
-          regionChangeProgress: false,
-        });
-      });
-  };
-
-  // Update state on region change
-  onRegionChange = (region) => {
-    this.setState(
-      {
-        region,
-        regionChangeProgress: true,
-      },
-      () => this.fetchAddress(),
-    );
-  };
-
-  // Action to be taken after select location button click
-  onLocationSelect = () => alert(this.state.userLocation);
-
   render() {
-    if (this.state.loading) {
-      return (
-        <View style={styles.spinnerView}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <View style={{flex: 2}}>
-            {!!this.state.region.latitude && !!this.state.region.longitude && (
-              <MapView
-                style={{...styles.map, marginTop: this.state.marginTop}}
-                initialRegion={this.state.region}
-                showsUserLocation={true}
-                onMapReady={this.onMapReady}
-                onRegionChangeComplete={this.onRegionChange}>
-                <MapView.Marker
-                  coordinate={{
-                    latitude: this.state.region.latitude,
-                    longitude: this.state.region.longitude,
-                  }}
-                  title={'Your Location'}
-                  draggable
-                />
-              </MapView>
-            )}
-
-            <View style={styles.mapMarkerContainer}>
-              <Text
-                style={{
-                  fontFamily: 'fontawesome',
-                  fontSize: 42,
-                  color: '#ad1f1f',
-                }}>
-                &#xf041;
-              </Text>
-            </View>
-          </View>
-          <View style={styles.deatilSection}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                fontFamily: 'roboto',
-                marginBottom: 20,
-              }}>
-              Move map for location
-            </Text>
-            <Text style={{fontSize: 10, color: '#999'}}>LOCATION</Text>
-            <Text
-              numberOfLines={2}
-              style={{
-                fontSize: 14,
-                paddingVertical: 10,
-                borderBottomColor: 'silver',
-                borderBottomWidth: 0.5,
-              }}>
-              {!this.state.regionChangeProgress
-                ? this.state.userLocation
-                : 'Identifying Location...'}
-            </Text>
-            <View style={styles.btnContainer}>
-              <Button
-                title="PICK THIS LOCATION"
-                disabled={this.state.regionChangeProgress}
-                onPress={this.onLocationSelect}></Button>
-            </View>
-          </View>
-        </View>
-      );
-    }
+    return (
+      <View>
+        <MapView
+          style={{
+            height: heightPercentageToDP(100),
+            width: widthPercentageToDP(100),
+          }}
+          initialRegion={this.state.region}
+          showsUserLocation={true}
+          // onMapReady={this.onMapReady}
+          // onRegionChangeComplete={this.onRegionChange}
+        >
+          {this.state.userLocationAll.map((i) => {
+            <MapView.Marker
+              coordinate={{
+                latitude: i.latitude,
+                longitude: i.longitude,
+              }}
+              title={'Your Location'}
+              draggable
+            />;
+          })}
+        </MapView>
+      </View>
+    );
   }
 }

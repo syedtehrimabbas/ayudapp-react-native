@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 class FireServices {
   getTockenForUniversalApi = (callback) => {
@@ -76,6 +77,20 @@ class FireServices {
       })
       .catch((err) => {
         console.log('error ---', err);
+      });
+  };
+  uploadImage = (path, callback) => {
+    const storageRef = storage().ref(`file`);
+    let fileUri = decodeURI(path);
+    const task = storageRef.putFile(fileUri);
+    task
+      .then((res) => {
+        console.log('res-----', res);
+        callback({isSuccess: true, res: res});
+      })
+      .catch((e) => {
+        callback({isSuccess: false, error: error});
+        console.log('error', e);
       });
   };
   serUserProfile = (user, callback) => {
