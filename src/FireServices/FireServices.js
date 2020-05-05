@@ -8,7 +8,8 @@ class FireServices {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization:
+        'user-email': 'syedtehrimabbas@gmail.com',
+        'api-token':
           'Bearer PSjAYmhK5ANj9aU0bu4N41gB0idOzOUVILqKe5SgWFh_srv54kfvddjSRSxjYkD08CY',
       },
     })
@@ -27,8 +28,9 @@ class FireServices {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'user-email': 'syedtehrimabbas@gmail.com',
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg2MzI3NDJ9.EY_E6u1cnZKRr3dPbWQglGtVGzwEO2EsNf0G751-Vyg',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg3NDUzNDV9.dCb0HU2D_bZlSr781EvLNG70UupVfcK6ZbxQluMb3z0',
       },
     })
       .then(async (res) => {
@@ -46,7 +48,7 @@ class FireServices {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg2MzI3NDJ9.EY_E6u1cnZKRr3dPbWQglGtVGzwEO2EsNf0G751-Vyg',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg3NDUzNDV9.dCb0HU2D_bZlSr781EvLNG70UupVfcK6ZbxQluMb3z0',
       },
     })
       .then(async (res) => {
@@ -64,7 +66,7 @@ class FireServices {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg2MzI3NDJ9.EY_E6u1cnZKRr3dPbWQglGtVGzwEO2EsNf0G751-Vyg',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg3NDUzNDV9.dCb0HU2D_bZlSr781EvLNG70UupVfcK6ZbxQluMb3z0',
       },
     })
       .then(async (res) => {
@@ -103,7 +105,6 @@ class FireServices {
     town,
     building,
     time,
-    image,
     callback,
   ) => {
     firestore()
@@ -122,7 +123,6 @@ class FireServices {
           town: town,
           building: building,
           time: time,
-          image: image,
         },
       })
       .then((profile) => {
@@ -152,6 +152,21 @@ class FireServices {
         callback({isSuccess: true, user: res});
       });
   };
+  getRequestedOrderByUser = (callback) => {
+    let requestsArray = [];
+    firestore()
+      .collection('userRequests')
+      .get()
+      .then((res) => {
+        res.forEach((documentSnapshoot) => {
+          requestsArray.push({
+            id: documentSnapshoot.id,
+            requests: documentSnapshoot.data(),
+          });
+          callback({isSuccess: true, requests: requestsArray});
+        });
+      });
+  };
   getRequestedOrder = (id, callback) => {
     firestore()
       .collection('userRequests')
@@ -179,6 +194,48 @@ class FireServices {
     latitude,
     longitude,
     currentTime,
+    diabetes,
+    hipertensión,
+    cancer,
+    other,
+    Washingsoap,
+    Cloro,
+    Bathsoap,
+    Disinfectant,
+    Alcohol,
+    Toothpaste,
+    Deodorant,
+    Babydiapers,
+    rice,
+    grains,
+
+    Flour,
+    Eggs,
+    Pastas,
+    Vegetables,
+    Fruit,
+    Sugar,
+    Salt,
+    cannedfood,
+
+    Oil,
+    Meat,
+    Bread,
+    Cheese,
+    Ham,
+    Water,
+    Creams,
+    Milk,
+    babymilk,
+    Dogfood,
+    Catfood,
+    Hypertension,
+    Diabetes,
+    FluCold,
+    Gastrointestinal,
+    Anxiety,
+    Insomnia,
+
     callback,
   ) => {
     firestore()
@@ -202,6 +259,48 @@ class FireServices {
         latitude: latitude,
         longitude: longitude,
         orderTime: currentTime,
+
+        diabetes: diabetes,
+        hipertensión: hipertensión,
+        cancer: cancer,
+        other: other,
+        Washingsoap: Washingsoap,
+        Cloro: Cloro,
+        Bathsoap: Bathsoap,
+        Disinfectant: Disinfectant,
+        Alcohol: Alcohol,
+        Toothpaste: Toothpaste,
+        Deodorant: Deodorant,
+        Babydiapers: Babydiapers,
+        rice: rice,
+        grains: grains,
+
+        Flour: Flour,
+        Eggs: Eggs,
+        Pastas: Pastas,
+        Vegetables: Vegetables,
+        Fruit: Fruit,
+        Sugar: Sugar,
+        Salt: Salt,
+        cannedfood: cannedfood,
+        Oil: Oil,
+        Meat: Meat,
+        Bread: Bread,
+        Cheese: Cheese,
+        Ham: Ham,
+        Water: Water,
+        Creams: Creams,
+        Milk: Milk,
+        babymilk: babymilk,
+        Dogfood: Dogfood,
+        Catfood: Catfood,
+        Hypertension: Hypertension,
+        Diabetes: Diabetes,
+        FluCold: FluCold,
+        Gastrointestinal: Gastrointestinal,
+        Anxiety: Anxiety,
+        Insomnia: Insomnia,
+        RequestStatus: 'Pending',
       })
       .then((res) => {
         console.log('requestreas', res);

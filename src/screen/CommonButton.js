@@ -52,7 +52,7 @@ const styles = {
     marginBottom: 0,
     borderRadius: 2,
   },
-  TextStyle: {color: 'white', fontSize: wp('5%')},
+  TextStyle: {color: 'white', fontSize: wp('4%')},
 };
 export default CommmonButton;
 // if (props === props.ImageSource) {

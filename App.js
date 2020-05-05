@@ -1,10 +1,16 @@
+import {PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, PermissionsAndroid} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 import BankPoint from './src/screen/BankPoint';
 import BioDataForm from './src/screen/BioDataForm';
 import Home from './src/screen/Home';
+import {Image} from 'react-native';
+import Images from './src/Image/Images';
 import IndividualHelperForm from './src/screen/IndividualHelperForm';
 import Login from './src/screen/Login';
 import NeedyForm from './src/screen/NeedyForm';
@@ -18,31 +24,6 @@ import {createStackNavigator} from 'react-navigation-stack';
 console.disableYellowBox = true;
 
 export default class App extends Component {
-  componentDidMount() {
-    requestCameraPermission = async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Cool Photo App Camera Permission',
-            message:
-              'Cool Photo App needs access to your camera ' +
-              'so you can take awesome pictures.',
-            buttonNeutral: 'Ask Me Later',
-            buttonNegative: 'Cancel',
-            buttonPositive: 'OK',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log('You can use the camera');
-        } else {
-          console.log('Camera permission denied');
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    };
-  }
   render() {
     return <AppContainer />;
   }
@@ -70,8 +51,47 @@ export default class App extends Component {
 //     headerMode: 'none',
 //   },
 // );
+const HomeStackNavigator = createBottomTabNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({tintColor}) => (
+        <Image
+          source={Images.home}
+          style={{
+            height: heightPercentageToDP(4),
+            width: widthPercentageToDP(7),
+            resizeMode: 'contain',
+            tintColor: tintColor,
+          }}
+        />
+      ),
+    },
+  },
+  Requests: {
+    screen: Requests,
+    navigationOptions: {
+      tabBarLabel: 'Requests',
+      tabBarIcon: ({tintColor}) => (
+        <Image
+          source={Images.request}
+          style={{
+            height: heightPercentageToDP(4),
+            width: widthPercentageToDP(7),
+            resizeMode: 'contain',
+            tintColor: tintColor,
+          }}
+        />
+      ),
+    },
+  },
+});
 const LoginStackNavigator = createStackNavigator(
   {
+    UserCategory: {
+      screen: UserCategory,
+    },
     Splash: {
       screen: Splash,
     },
@@ -82,7 +102,7 @@ const LoginStackNavigator = createStackNavigator(
       screen: BioDataForm,
     },
     Home: {
-      screen: Home,
+      screen: HomeStackNavigator,
     },
     UserCategory: {
       screen: UserCategory,

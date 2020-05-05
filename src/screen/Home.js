@@ -28,6 +28,49 @@ let Medications = '';
 let currentTime = 0;
 let tomorrowTime = 0;
 let tomorrowNextTime = 0;
+
+let diabetesText = '';
+let hipertensiónText = '';
+let cancerText = '';
+let otherText = '';
+let WashingsoapText = '';
+let CloroText = '';
+let BathsoapText = '';
+let DisinfectantText = '';
+let AlcoholText = '';
+let ToothpasteText = '';
+let DeodorantText = '';
+let BabydiapersText = '';
+let riceText = '';
+let grainsText = '';
+
+let FlourText = '';
+let EggsText = '';
+let PastasText = '';
+let VegetablesText = '';
+let FruitText = '';
+let SugarText = '';
+let SaltText = '';
+let cannedfoodText = '';
+
+let OilText = '';
+let MeatText = '';
+let BreadText = '';
+let CheeseText = '';
+let HamText = '';
+let WaterText = '';
+let CreamsText = '';
+let MilkText = '';
+let babymilkText = '';
+let DogfoodText = '';
+let CatfoodText = '';
+let HypertensionText = '';
+let DiabetesText = '';
+let FluColdText = '';
+let GastrointestinalText = '';
+let AnxietyText = '';
+let InsomniaText = '';
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +97,47 @@ export default class Home extends Component {
       longitude: 0,
       textToShow: '',
       withinTime: false,
+      diabetes: false,
+      hipertensión: false,
+      cancer: false,
+      other: false,
+      Washingsoap: false,
+      Cloro: false,
+      Bathsoap: false,
+      Disinfectant: false,
+      Alcohol: false,
+      Toothpaste: false,
+      Deodorant: false,
+      Babydiapers: false,
+      rice: false,
+      grains: false,
+
+      Flour: false,
+      Eggs: false,
+      Pastas: false,
+      Vegetables: false,
+      Fruit: false,
+      Sugar: false,
+      Salt: false,
+      cannedfood: false,
+
+      Oil: false,
+      Meat: false,
+      Bread: false,
+      Cheese: false,
+      Ham: false,
+      Water: false,
+      Creams: false,
+      Milk: false,
+      babymilk: false,
+      Dogfood: false,
+      Catfood: false,
+      Hypertension: false,
+      Diabetes: false,
+      FluCold: false,
+      Gastrointestinal: false,
+      Anxiety: false,
+      Insomnia: false,
     };
   }
   setOrderRistriction = () => {
@@ -62,6 +146,7 @@ export default class Home extends Component {
       if (user.isSuccess) {
         console.log('userrrrrrr', user.user._data.requestId);
         Services.getRequestedOrder(user.user._data.requestId, (order) => {
+          this.setState({loading: false});
           console.log('order', order);
           currentTime = new Date(order.order._data.orderTime).getTime();
           tomorrowTime = new Date(
@@ -101,14 +186,14 @@ export default class Home extends Component {
       this.setOrderRistriction();
     });
 
-    Geolocation.getCurrentPosition((info) =>
+    Geolocation.getCurrentPosition((info) => {
+      console.log('info', info);
       this.setState({
         latitude: info.coords.latitude,
         longitude: info.coords.longitude,
-      }),
-    );
+      });
+    });
   }
-
   onButtonPress = () => {
     let currentDate = new Date().toString();
     this.setState({loading: true});
@@ -123,6 +208,47 @@ export default class Home extends Component {
       accountDetail,
       latitude,
       longitude,
+      diabetes,
+      hipertensión,
+      cancer,
+      other,
+      Washingsoap,
+      Cloro,
+      Bathsoap,
+      Disinfectant,
+      Alcohol,
+      Toothpaste,
+      Deodorant,
+      Babydiapers,
+      rice,
+      grains,
+
+      Flour,
+      Eggs,
+      Pastas,
+      Vegetables,
+      Fruit,
+      Sugar,
+      Salt,
+      cannedfood,
+
+      Oil,
+      Meat,
+      Bread,
+      Cheese,
+      Ham,
+      Water,
+      Creams,
+      Milk,
+      babymilk,
+      Dogfood,
+      Catfood,
+      Hypertension,
+      Diabetes,
+      FluCold,
+      Gastrointestinal,
+      Anxiety,
+      Insomnia,
     } = this.state;
     if (this.state.individual) {
       helpType = 'individual help';
@@ -151,6 +277,224 @@ export default class Home extends Component {
     } else {
       Medications = 'not require medications';
     }
+    if (diabetes) {
+      diabetesText = 'positive diabetes';
+    } else {
+      diabetesText = 'negitive diabetes';
+    }
+    if (Hypertension) {
+      HypertensionText = 'positive Hypertension';
+    } else {
+      HypertensionText = 'negitive Hypertension';
+    }
+    if (cancer) {
+      cancerText = 'positive cancer';
+    } else {
+      cancerText = 'negitive cancer';
+    }
+    if (cancer) {
+      cancerText = 'positive cancer';
+    } else {
+      cancerText = 'negitive cancer';
+    }
+    if (other) {
+      otherText = 'positive other';
+    } else {
+      otherText = 'negitive other';
+    }
+    if (Washingsoap) {
+      WashingsoapText = ' Washingsoap require';
+    } else {
+      WashingsoapText = ' Washingsoap not require';
+    }
+    if (Cloro) {
+      CloroText = ' Cloro require';
+    } else {
+      CloroText = ' Cloro not require';
+    }
+    if (Bathsoap) {
+      BathsoapText = ' Bath soap require';
+    } else {
+      BathsoapText = ' Bath soap not require';
+    }
+    if (Disinfectant) {
+      DisinfectantText = ' Disinfectant require';
+    } else {
+      DisinfectantText = ' Disinfectant not require';
+    }
+    if (Alcohol) {
+      AlcoholText = ' Alcohol require';
+    } else {
+      AlcoholText = ' Alcohol not require';
+    }
+    if (Toothpaste) {
+      ToothpasteText = ' Toothpaste require';
+    } else {
+      ToothpasteText = ' Toothpaste not require';
+    }
+
+    if (Deodorant) {
+      DeodorantText = ' Deodorant require';
+    } else {
+      DeodorantText = ' Deodorant not require';
+    }
+    if (Babydiapers) {
+      BabydiapersText = ' Baby diapers require';
+    } else {
+      BabydiapersText = ' Baby diapers not require';
+    }
+
+    if (rice) {
+      riceText = ' rice require';
+    } else {
+      riceText = ' rice not require';
+    }
+    if (grains) {
+      grainsText = ' grains require';
+    } else {
+      grainsText = ' grains not require';
+    }
+    if (Flour) {
+      FlourText = ' Flour require';
+    } else {
+      FlourText = ' Flour not require';
+    }
+    if (Eggs) {
+      EggsText = ' Eggs require';
+    } else {
+      EggsText = ' Eggs not require';
+    }
+    if (Pastas) {
+      PastasText = ' Pastas require';
+    } else {
+      PastasText = ' Pastas not require';
+    }
+    if (Vegetables) {
+      VegetablesText = ' Vegetables require';
+    } else {
+      VegetablesText = ' Vegetables not require';
+    }
+    if (Fruit) {
+      FruitText = ' Fruit require';
+    } else {
+      FruitText = ' Fruit not require';
+    }
+    if (Sugar) {
+      SugarText = ' Sugar require';
+    } else {
+      SugarText = ' Sugar not require';
+    }
+    if (Salt) {
+      SaltText = ' Salt require';
+    } else {
+      SaltText = ' Salt not require';
+    }
+    if (cannedfood) {
+      cannedfoodText = ' cannedfood require';
+    } else {
+      cannedfoodText = ' cannedfood not require';
+    }
+    if (Washingsoap) {
+      WashingsoapText = ' Washingsoap require';
+    } else {
+      WashingsoapText = ' Washingsoap not require';
+    }
+    if (Oil) {
+      OilText = ' Oil require';
+    } else {
+      OilText = ' Oil not require';
+    }
+    if (Meat) {
+      MeatText = ' Meat require';
+    } else {
+      MeatText = ' Meat not require';
+    }
+    if (Bread) {
+      BreadText = ' Bread require';
+    } else {
+      BreadText = ' Bread not require';
+    }
+    if (Cheese) {
+      CheeseText = ' Cheese require';
+    } else {
+      CheeseText = ' Cheese not require';
+    }
+    if (Ham) {
+      HamText = ' Ham require';
+    } else {
+      HamText = ' Ham not require';
+    }
+    if (Water) {
+      WaterText = ' Water require';
+    } else {
+      WaterText = ' Water not require';
+    }
+    if (Creams) {
+      CreamsText = ' Creams require';
+    } else {
+      CreamsText = ' Creams not require';
+    }
+    if (Milk) {
+      MilkText = ' Milk require';
+    } else {
+      MilkText = ' Milk not require';
+    }
+    if (babymilk) {
+      babymilkText = ' babymilk require';
+    } else {
+      babymilkText = ' babymilk not require';
+    }
+    if (Dogfood) {
+      DogfoodText = ' Dogfood require';
+    } else {
+      DogfoodText = ' Dogfood not require';
+    }
+    if (Catfood) {
+      CatfoodText = ' Catfood require';
+    } else {
+      CatfoodText = ' Catfood not require';
+    }
+    if (Hypertension) {
+      HypertensionText = ' Hypertension positive';
+    } else {
+      HypertensionText = ' Hypertension negitave';
+    }
+    if (Diabetes) {
+      DiabetesText = ' Diabetes positive';
+    } else {
+      DiabetesText = ' Diabetes negitave';
+    }
+    if (Bathsoap) {
+      BathsoapText = ' Bathsoap positive';
+    } else {
+      BathsoapText = ' Bathsoap negitave';
+    }
+    if (FluCold) {
+      FluColdText = ' FluCold positive';
+    } else {
+      FluColdText = ' FluCold negitave';
+    }
+    if (Gastrointestinal) {
+      GastrointestinalText = ' Gastrointestinal positive';
+    } else {
+      GastrointestinalText = ' Gastrointestinal negitave';
+    }
+    if (Anxiety) {
+      AnxietyText = ' Anxiety positive';
+    } else {
+      AnxietyText = ' Anxiety negitave';
+    }
+    if (Deodorant) {
+      DeodorantText = ' Deodorant positive';
+    } else {
+      DeodorantText = ' Deodorant negitave';
+    }
+    if (Insomnia) {
+      InsomniaText = ' Insomnia positive';
+    } else {
+      InsomniaText = ' Insomnia negitave';
+    }
+
     Services.needyUserForm(
       name,
       ageRange1,
@@ -169,6 +513,48 @@ export default class Home extends Component {
       latitude,
       longitude,
       currentDate,
+
+      diabetesText,
+      hipertensiónText,
+      cancerText,
+      otherText,
+      WashingsoapText,
+      CloroText,
+      BathsoapText,
+      DisinfectantText,
+      AlcoholText,
+      ToothpasteText,
+      DeodorantText,
+      BabydiapersText,
+      riceText,
+      grainsText,
+
+      FlourText,
+      EggsText,
+      PastasText,
+      VegetablesText,
+      FruitText,
+      SugarText,
+      SaltText,
+      cannedfoodText,
+      OilText,
+      MeatText,
+      BreadText,
+      CheeseText,
+      HamText,
+      WaterText,
+      CreamsText,
+      MilkText,
+      babymilkText,
+      DogfoodText,
+      CatfoodText,
+      HypertensionText,
+      DiabetesText,
+      FluColdText,
+      GastrointestinalText,
+      AnxietyText,
+      InsomniaText,
+
       (response) => {
         console.log('hererer in home response ', response);
         this.setState({loading: false});
@@ -280,6 +666,7 @@ export default class Home extends Component {
                     <Text style={{width: wp(30)}}>Menos de 1 ano:</Text>
                     <TextInput
                       value={this.state.ageRange1}
+                      keyboardType="number-pad"
                       onChangeText={(ageRange1) => this.setState({ageRange1})}
                       style={styles.inPUTminiStyle}
                     />
@@ -288,6 +675,7 @@ export default class Home extends Component {
                     <Text style={{width: wp(30)}}>De 1 a 12 anos:</Text>
                     <TextInput
                       value={this.state.ageRange2}
+                      keyboardType="number-pad"
                       onChangeText={(ageRange2) => this.setState({ageRange2})}
                       style={styles.inPUTminiStyle}
                     />
@@ -296,6 +684,7 @@ export default class Home extends Component {
                     <Text style={{width: wp(30)}}>De 13 a 17 anos:</Text>
                     <TextInput
                       value={this.state.ageRange3}
+                      keyboardType="number-pad"
                       onChangeText={(ageRange3) => this.setState({ageRange3})}
                       style={styles.inPUTminiStyle}
                     />
@@ -304,6 +693,7 @@ export default class Home extends Component {
                     <Text style={{width: wp(30)}}>De 18 a 60 anos:</Text>
                     <TextInput
                       value={this.state.ageRange4}
+                      keyboardType="number-pad"
                       onChangeText={(ageRange4) => this.setState({ageRange4})}
                       style={styles.inPUTminiStyle}
                     />
@@ -312,6 +702,7 @@ export default class Home extends Component {
                     <Text style={{width: wp(30)}}>De 61 a o mas:</Text>
                     <TextInput
                       value={this.state.ageRange5}
+                      keyboardType="number-pad"
                       onChangeText={(ageRange5) => this.setState({ageRange5})}
                       style={styles.inPUTminiStyle}
                     />
@@ -334,6 +725,64 @@ export default class Home extends Component {
                       style={styles.checkbox}
                     />
                   </View>
+                  {/* ------------- option container -------------- */}
+                  {this.state.coronaDisease && (
+                    <View style={styles.optionContainerSTyle}>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CheckBox
+                          value={this.state.diabetes}
+                          onValueChange={() =>
+                            this.setState({
+                              diabetes: !this.state.diabetes,
+                            })
+                          }
+                          style={styles.checkbox}
+                        />
+                        <Text>Diabetes</Text>
+                      </View>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CheckBox
+                          value={this.state.hipertensión}
+                          onValueChange={() =>
+                            this.setState({
+                              hipertensión: !this.state.hipertensión,
+                            })
+                          }
+                          style={styles.checkbox}
+                        />
+                        <Text>Hipertensión - (Hypertension)</Text>
+                      </View>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CheckBox
+                          value={this.state.cancer}
+                          onValueChange={() =>
+                            this.setState({
+                              cancer: !this.state.cancer,
+                            })
+                          }
+                          style={styles.checkbox}
+                        />
+                        <Text>Cancer</Text>
+                      </View>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <CheckBox
+                          value={this.state.other}
+                          onValueChange={() =>
+                            this.setState({
+                              other: !this.state.other,
+                            })
+                          }
+                          style={styles.checkbox}
+                        />
+                        <Text>Otras - (Others)</Text>
+                      </View>
+                    </View>
+                  )}
+                  {/* ------------- option container -------------- */}
                 </View>
                 <View style={styles.subContainerStyle}>
                   <Text style={styles.detailTextStyle}>
@@ -351,6 +800,123 @@ export default class Home extends Component {
                     />
                   </View>
                 </View>
+                {/* ----------------------------- Cleaning option --------------------------- */}
+                {this.state.soap && (
+                  <View style={styles.optionContainerSTyle}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Washingsoap}
+                        onValueChange={() =>
+                          this.setState({
+                            Washingsoap: !this.state.Washingsoap,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Jabón de lavar - (Washing soap)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Cloro}
+                        onValueChange={() =>
+                          this.setState({
+                            Cloro: !this.state.Cloro,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Cloro</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Bathsoap}
+                        onValueChange={() =>
+                          this.setState({
+                            Bathsoap: !this.state.Bathsoap,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Jabón de baño- Bath soap</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Disinfectant}
+                        onValueChange={() =>
+                          this.setState({
+                            Disinfectant: !this.state.Disinfectant,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Desinfectante - (Disinfectant)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Alcohol}
+                        onValueChange={() =>
+                          this.setState({
+                            Alcohol: !this.state.Alcohol,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Alcohol</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Toothpaste}
+                        onValueChange={() =>
+                          this.setState({
+                            Toothpaste: !this.state.Toothpaste,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Pasta de diente - (Toothpaste)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Deodorant}
+                        onValueChange={() =>
+                          this.setState({
+                            Deodorant: !this.state.Deodorant,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Desodorante - (Deodorant)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Babydiapers}
+                        onValueChange={() =>
+                          this.setState({
+                            Babydiapers: !this.state.Babydiapers,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Pañales de bebé - (Baby diapers)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.other}
+                        onValueChange={() =>
+                          this.setState({
+                            other: !this.state.other,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Otras - (Others)</Text>
+                    </View>
+                  </View>
+                )}
+                {/* ----------------------------- Cleaning option --------------------------- */}
+
                 <View style={styles.subContainerStyle}>
                   <Text style={styles.detailTextStyle}>
                     Seleccione Ios alimentos que necesita - (Food)
@@ -367,6 +933,290 @@ export default class Home extends Component {
                     />
                   </View>
                 </View>
+
+                {/* ----------------------------- Food option --------------------------- */}
+                {this.state.egg && (
+                  <View style={styles.optionContainerSTyle}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.rice}
+                        onValueChange={() =>
+                          this.setState({
+                            rice: !this.state.rice,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Arroz - (Rice)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.grains}
+                        onValueChange={() =>
+                          this.setState({
+                            grains: !this.state.grains,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>granos: frijoles, lentejas - (Grains)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Flour}
+                        onValueChange={() =>
+                          this.setState({
+                            Flour: !this.state.Flour,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Harina - (Flour)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Eggs}
+                        onValueChange={() =>
+                          this.setState({
+                            Eggs: !this.state.Eggs,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Huevos - (Eggs)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Pastas}
+                        onValueChange={() =>
+                          this.setState({
+                            Pastas: !this.state.Pastas,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Spaghetti - (Pastas)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Vegetables}
+                        onValueChange={() =>
+                          this.setState({
+                            Vegetables: !this.state.Vegetables,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Vegetales - (Vegetables)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Fruit}
+                        onValueChange={() =>
+                          this.setState({
+                            Fruit: !this.state.Fruit,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Frutas - (Fruit)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Sugar}
+                        onValueChange={() =>
+                          this.setState({
+                            Sugar: !this.state.Sugar,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Azucar - (Sugar)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Salt}
+                        onValueChange={() =>
+                          this.setState({
+                            Salt: !this.state.Salt,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Sal - (Salt)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.cannedfood}
+                        onValueChange={() =>
+                          this.setState({
+                            cannedfood: !this.state.cannedfood,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Comida enlatada - (canned food)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Washingsoap}
+                        onValueChange={() =>
+                          this.setState({
+                            Washingsoap: !this.state.Washingsoap,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Jabón de lavar - (Washing soap)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Oil}
+                        onValueChange={() =>
+                          this.setState({
+                            Oil: !this.state.Oil,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Aceite - (Oil)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Meat}
+                        onValueChange={() =>
+                          this.setState({
+                            Meat: !this.state.Meat,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Carnes: Pollo, ganado o puerco - (Meat)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Bread}
+                        onValueChange={() =>
+                          this.setState({
+                            Bread: !this.state.Bread,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Pan - (Bread)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Cheese}
+                        onValueChange={() =>
+                          this.setState({
+                            Cheese: !this.state.Cheese,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Queso - (Cheese)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Ham}
+                        onValueChange={() =>
+                          this.setState({
+                            Ham: !this.state.Ham,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Jamón - (Ham)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Water}
+                        onValueChange={() =>
+                          this.setState({
+                            Water: !this.state.Water,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Agua - (Water)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Creams}
+                        onValueChange={() =>
+                          this.setState({
+                            Creams: !this.state.Creams,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Cremas - (Creams)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Milk}
+                        onValueChange={() =>
+                          this.setState({
+                            Milk: !this.state.Milk,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Leche - (Milk)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.babymilk}
+                        onValueChange={() =>
+                          this.setState({
+                            babymilk: !this.state.babymilk,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Leche de bebe - (baby milk)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Dogfood}
+                        onValueChange={() =>
+                          this.setState({
+                            Dogfood: !this.state.Dogfood,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Comida para perros (Dog food)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Catfood}
+                        onValueChange={() =>
+                          this.setState({
+                            Catfood: !this.state.Catfood,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Comida para gatos (Cat food)</Text>
+                    </View>
+                  </View>
+                )}
+                {/* ----------------------------- Food option --------------------------- */}
+
                 <View style={styles.subContainerStyle}>
                   <Text style={styles.detailTextStyle}>
                     Medicamentos que necesita - (Medications)
@@ -383,6 +1233,113 @@ export default class Home extends Component {
                     />
                   </View>
                 </View>
+
+                {/* ----------------------------- Medications option --------------------------- */}
+                {this.state.medicine && (
+                  <View style={styles.optionContainerSTyle}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Hypertension}
+                        onValueChange={() =>
+                          this.setState({
+                            Hypertension: !this.state.Hypertension,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Hipertensión - (Hypertension)</Text>
+                    </View>
+
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Diabetes}
+                        onValueChange={() =>
+                          this.setState({
+                            Diabetes: !this.state.Diabetes,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Diabetes </Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Bathsoap}
+                        onValueChange={() =>
+                          this.setState({
+                            Bathsoap: !this.state.Bathsoap,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Jabón de baño- Bath soap</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.FluCold}
+                        onValueChange={() =>
+                          this.setState({
+                            FluCold: !this.state.FluCold,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Influenza (Malestar general) - (Flu-Cold)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Gastrointestinal}
+                        onValueChange={() =>
+                          this.setState({
+                            Gastrointestinal: !this.state.Gastrointestinal,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>
+                        Malestar gastrointestinal - (Gastrointestinal upset)
+                      </Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Anxiety}
+                        onValueChange={() =>
+                          this.setState({
+                            Anxiety: !this.state.Anxiety,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Ansiedad - (Anxiety)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Deodorant}
+                        onValueChange={() =>
+                          this.setState({
+                            Deodorant: !this.state.Deodorant,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Desodorante - (Deodorant)</Text>
+                    </View>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <CheckBox
+                        value={this.state.Insomnia}
+                        onValueChange={() =>
+                          this.setState({
+                            Insomnia: !this.state.Insomnia,
+                          })
+                        }
+                        style={styles.checkbox}
+                      />
+                      <Text>Insomnio - (Insomnia)</Text>
+                    </View>
+                  </View>
+                )}
+                {/* ----------------------------- Medications option --------------------------- */}
+
                 <View style={styles.subContainerStyle}>
                   <Text style={styles.detailTextStyle}>
                     Estatus laboral para recibir bono o Bolsa solidria del
@@ -391,16 +1348,39 @@ export default class Home extends Component {
 
                   <View style={styles.boxContainerSTyle}>
                     <Picker
-                      selectedValue={this.state.selectedValue}
+                      selectedValue={this.state.employment}
                       style={styles.placeholderStyle}
                       onValueChange={(itemValue, itemIndex) =>
-                        this.setSelectedValue(itemValue)
+                        this.setState({employment: itemValue})
                       }>
                       <Picker.Item
-                        label="Estoy desempleado - (i'm unemployed)"
-                        value="Estoy desempleado - (i'm unemployed)"
+                        label="Soy independiente - (I'm independent)"
+                        value="Soy independiente - (I'm independent)"
                       />
-                      <Picker.Item label="some" value="some" />
+                      <Picker.Item
+                        label="Estoy desempleado -  (I'm unemployed)"
+                        value="Estoy desempleado -  (I'm unemployed)"
+                      />
+                      <Picker.Item
+                        label="Me despidieron - (I got fired)"
+                        value="Me despidieron - (I got fired)"
+                      />
+                      <Picker.Item
+                        label="Estoy de vacaciones - (I'm on vacation)"
+                        value="Estoy de vacaciones - (I'm on vacation)"
+                      />
+                      <Picker.Item
+                        label="Mi empleador se acogió al decreto - (My employer accepted the decree)"
+                        value="Mi empleador se acogió al decreto - (My employer accepted the decree)"
+                      />
+                      <Picker.Item
+                        label="Soy Jubilado - (I'm retired)"
+                        value="Soy Jubilado - (I'm retired)"
+                      />
+                      <Picker.Item
+                        label="Sigo laborando - (I keep working)"
+                        value="Sigo laborando - (I keep working)"
+                      />
                     </Picker>
                   </View>
                 </View>
@@ -425,22 +1405,7 @@ export default class Home extends Component {
                     name)
                   </Text>
                 </View>
-                <CommmonButton
-                  onPress={this.onButtonPressLocation}
-                  style={{
-                    paddingTop: hp(2),
-                    backgroundColor: 'tomato',
-                    alignSelf: 'center',
-                    justifyContant: 'center',
-                    alignItems: 'center',
-                    paddingBottom: hp(2),
-                    paddingLeft: wp(15),
-                    paddingRight: wp(15),
-                    marginTop: hp(5),
-                    borderRadius: wp(1),
-                  }}
-                  Text="Location"
-                />
+
                 <CommmonButton
                   onPress={this.onButtonPress}
                   style={{
@@ -489,7 +1454,6 @@ const styles = StyleSheet.create({
     marginTop: hp(1),
     width: wp(90),
     alignSelf: 'center',
-    height: hp(5),
     justifyContent: 'center',
     paddingLeft: wp(2),
   },
@@ -508,7 +1472,6 @@ const styles = StyleSheet.create({
     width: wp(50),
     paddingLeft: wp(2),
     marginLeft: wp(2),
-    height: hp(4),
   },
   boxContainerSTyle: {
     borderWidth: 1,
@@ -519,5 +1482,14 @@ const styles = StyleSheet.create({
     paddingLeft: wp(2),
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  optionContainerSTyle: {
+    backgroundColor: '#f3f3f3',
+    width: wp(90),
+    alignSelf: 'center',
+    paddingLeft: wp(5),
+    borderWidth: 0.4,
+    elevation: 1,
+    borderColor: '#f4f4f4',
   },
 });
