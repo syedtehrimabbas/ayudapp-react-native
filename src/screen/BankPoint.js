@@ -36,7 +36,7 @@ export default class BankPoint extends Component {
             loading: false,
             latitude: 0,
             longitude: 0,
-            accessToken
+            accessToken: ''
         };
     }
 
@@ -86,10 +86,10 @@ export default class BankPoint extends Component {
                 longitude: info.coords.longitude,
             }),
         );
-        Services.getTockenForUniversalApi((res) => {
-            if (res.isSuccess) {
-                this.setState({accessToken: userToken});
-                Services.fetchCountries(res.token, (countries) => {
+        Services.getTockenForUniversalApi((result) => {
+            if (result.isSuccess) {
+                this.setState({accessToken: result.token});
+                Services.fetchCountries(result.token, (countries) => {
                     console.log('console', countries.data);
                     this.setState({countries: countries.data});
                 });
@@ -160,7 +160,7 @@ export default class BankPoint extends Component {
                                 style={styles.placeholderStyle}
                                 onValueChange={(state, itemIndex) => {
                                     this.setState({selectedValueState: state});
-                                    Services.getCitiesFromApi(this.state.accessToken,state, (cities) => {
+                                    Services.getCitiesFromApi(this.state.accessToken, state, (cities) => {
                                         this.setState({citiesList: cities.data});
                                     });
                                 }}>

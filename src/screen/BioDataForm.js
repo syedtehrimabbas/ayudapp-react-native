@@ -82,11 +82,11 @@ export default class BioDataForm extends Component {
     };
 
     componentDidMount() {
-        Services.getTockenForUniversalApi((userToken) => {
-            console.log('userToken', userToken);
-            this.setState({accessToken: userToken});
-            if (userToken.isSuccess) {
-                Services.fetchCountries(userToken.token, (countries) => {
+        Services.getTockenForUniversalApi((result) => {
+            console.log('userToken', result.token);
+            this.setState({accessToken: result.token});
+            if (result.isSuccess) {
+                Services.fetchCountries(result.token, (countries) => {
                     console.log('console', countries.data);
                     this.setState({countries: countries.data});
                 });
