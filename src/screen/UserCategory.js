@@ -1,5 +1,5 @@
+import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -7,28 +7,39 @@ import {
 
 import CommmonButton from './CommonButton';
 import {FlatList} from 'react-native-gesture-handler';
+import Images from '../Image/Images';
 import Services from '../FireServices/FireServices';
 
 let button = [
   {
     id: 1,
     text: 'Necesito ayuda',
-    color: '#e0e31b',
+    color: '#ffcb08',
+    icon: Images.needhelp,
   },
   {
     id: 2,
     text: 'Quiero ayudar by un individuo',
-    color: '#3454e3',
+    color: '#231f20',
+    icon: Images.individual,
   },
   {
     id: 3,
     text: 'Quiero ayudar Soy una empresa',
-    color: '#0b991e',
+    color: '#a6ce39',
+    icon: Images.company,
   },
   {
     id: 4,
     text: 'Crear banco de alimenio distribuido',
-    color: '#4287f5',
+    color: '#0095da',
+    icon: Images.foodbank,
+  },
+  {
+    id: 5,
+    text: 'Ver estadisticas y resumen',
+    color: '#da0101',
+    icon: Images.statistics,
   },
 ];
 let userStatus = '';
@@ -52,23 +63,43 @@ export default class UserCategory extends Component {
   }
   renderButton = ({item}) => {
     return (
-      <CommmonButton
-        onPress={() => this.onButtonPress(item.id)}
+      <View
         style={{
-          paddingTop: hp(2),
-          backgroundColor: item.color,
-          alignSelf: 'center',
-          justifyContant: 'center',
-          alignItems: 'center',
-          paddingBottom: hp(2),
           width: wp(90),
-          //   paddingLeft: wp(7),
-          //   paddingRight: wp(7),
-          marginTop: hp(2),
-          borderRadius: wp(1),
-        }}
-        Text={item.text}
-      />
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignSelf: 'center',
+          justifyContent: 'center',
+          marginTop: hp(3),
+        }}>
+        <Image
+          source={item.icon}
+          resizeMode="cover"
+          style={{
+            height: hp(7.5),
+            width: wp(15),
+            marginTop: hp(2),
+          }}
+        />
+        <CommmonButton
+          onPress={() => this.onButtonPress(item.id)}
+          TextStyle={{fontSize: 12}}
+          style={{
+            paddingTop: hp(2),
+            backgroundColor: item.color,
+            alignSelf: 'center',
+            justifyContant: 'center',
+            alignItems: 'center',
+            paddingBottom: hp(2),
+            width: wp(75),
+            //   paddingLeft: wp(7),
+            //   paddingRight: wp(7),
+            marginTop: hp(2),
+            borderRadius: wp(1),
+          }}
+          Text={item.text}
+        />
+      </View>
     );
   };
   onButtonPress = (id) => {

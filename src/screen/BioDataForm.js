@@ -69,7 +69,6 @@ export default class BioDataForm extends Component {
       town,
       building,
       time,
-      image,
       (response) => {
         console.log('biodata', response);
         if (response.isSuccess) {
@@ -82,14 +81,23 @@ export default class BioDataForm extends Component {
   };
 
   componentDidMount() {
-    Services.getTockenForUniversalApi((res) => {
-      if (res.isSuccess) {
-        Services.fetchCountries(res.token, (countries) => {
+    Services.getTockenForUniversalApi((userToken) => {
+      console.log('userToken', userToken);
+      if (userToken.isSuccess) {
+        Services.fetchCountries(userToken.token, (countries) => {
           console.log('console', countries.data);
           this.setState({countries: countries.data});
         });
       }
     });
+    // Services.getTockenForUniversalApi((res) => {
+    //   if (res.isSuccess) {
+    //     Services.fetchCountries(res.token, (countries) => {
+    //       console.log('console', countries.data);
+    //       this.setState({countries: countries.data});
+    //     });
+    //   }
+    // });
   }
   onItemValuePick = (value) => {
     console.log('value', value);
@@ -125,12 +133,14 @@ export default class BioDataForm extends Component {
               value={this.state.phone}
               onChangeText={(phone) => this.setState({phone})}
               placeholder={'Numero celular'}
+              keyboardType="phone-pad"
               style={styles.placeholderStyle}
             />
             <TextInput
               value={this.state.otherPhone}
               onChangeText={(otherPhone) => this.setState({otherPhone})}
               placeholder={'Primer nombre'}
+              keyboardType="phone-pad"
               style={styles.placeholderStyle}
             />
             <View style={styles.placeholderStyle}>
@@ -172,10 +182,10 @@ export default class BioDataForm extends Component {
             </View>
             <View style={styles.placeholderStyle}>
               <Picker
-                selectedValue={this.state.selectedValueState}
+                selectedValue={this.state.city}
                 style={styles.placeholderStyle}
                 onValueChange={(itemValue, itemIndex) =>
-                  this.setState({selectedValueState: itemValue})
+                  this.setState({city: itemValue})
                 }>
                 {this.state.citiesList.map((i) => {
                   return (
@@ -213,14 +223,7 @@ export default class BioDataForm extends Component {
               onChangeText={(time) => this.setState({time})}
               placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
               style={styles.placeholderStyle}
-            />
-            <TextInput
-              value={this.state.image}
-              onChangeText={(image) => this.setState({image})}
-              placeholder={
-                'Proporcionar una foto para el perﬁl (Provide a photo for the proﬁle)'
-              }
-              style={styles.placeholderStyle}
+              keyboardType="numeric-pad"
             />
 
             <View>
