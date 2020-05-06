@@ -5,13 +5,14 @@ class FireServices {
   getTockenForUniversalApi = (callback) => {
     console.log('hre');
     fetch('https://www.universal-tutorial.com/api/getaccesstoken', {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization:
-          'Bearer PSjAYmhK5ANj9aU0bu4N41gB0idOzOUVILqKe5SgWFh_srv54kfvddjSRSxjYkD08CY',
-      },
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'api-token': 'PSjAYmhK5ANj9aU0bu4N41gB0idOzOUVILqKe5SgWFh_srv54kfvddjSRSxjYkD08CY',
+            'user-email': 'syedtehrimabbas@gmail.com',
+        },
     })
+
       .then(async (res) => {
         const data = await res.json();
         callback({isSuccess: true, token: data.auth_token});
@@ -28,7 +29,7 @@ class FireServices {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg2MzI3NDJ9.EY_E6u1cnZKRr3dPbWQglGtVGzwEO2EsNf0G751-Vyg',
+          'Bearer '+token,
       },
     })
       .then(async (res) => {
@@ -258,5 +259,6 @@ class FireServices {
       });
   };
 }
+
 const Services = new FireServices();
 export default Services;

@@ -1,25 +1,13 @@
-import {
-  CheckBox,
-  Image,
-  KeyboardAvoidingView,
-  Picker,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {CheckBox, Image, KeyboardAvoidingView, Picker, StyleSheet, Text, View,} from 'react-native';
 import React, {Component} from 'react';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen';
+import {heightPercentageToDP as hp, widthPercentageToDP as wp,} from 'react-native-responsive-screen';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import CommmonButton from './CommonButton';
 import Images from '../Image/Images';
 import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
-import countryArray from '..//JSONfILES/country';
 
 export default class BioDataForm extends Component {
   constructor(props) {
