@@ -43,13 +43,13 @@ class FireServices {
                 console.log('error ---', err);
             });
     };
-    getStatesFromApi = (cont, callback) => {
+    getStatesFromApi = (accessToken,cont, callback) => {
         fetch(`https://www.universal-tutorial.com/api/states/${cont}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization:
-                    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg3NDUzNDV9.dCb0HU2D_bZlSr781EvLNG70UupVfcK6ZbxQluMb3z0',
+                    'Bearer '+accessToken,
             },
         })
             .then(async (res) => {
@@ -61,13 +61,13 @@ class FireServices {
                 console.log('error ---', err);
             });
     };
-    getCitiesFromApi = (state, callback) => {
+    getCitiesFromApi = (accessToken,state, callback) => {
         fetch(`https://www.universal-tutorial.com/api/cities/${state}`, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 Authorization:
-                    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg3NDUzNDV9.dCb0HU2D_bZlSr781EvLNG70UupVfcK6ZbxQluMb3z0',
+                    'Bearer '+accessToken,
             },
         })
             .then(async (res) => {
