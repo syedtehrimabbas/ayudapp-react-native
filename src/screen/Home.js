@@ -601,7 +601,7 @@ export default class Home extends Component {
             </View>
             <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-              <ScrollView style={{height: hp(88)}}>
+              <ScrollView style={{height: hp(86)}}>
                 <View style={{paddingLeft: wp(5), borderBottomWidth: 1}}>
                   <Text>Usted necesita</Text>
                   <View style={styles.oPtioncontainer}>
