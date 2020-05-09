@@ -12,6 +12,7 @@ import Home from './src/screen/Home';
 import {Image} from 'react-native';
 import Images from './src/Image/Images';
 import IndividualHelperForm from './src/screen/IndividualHelperForm';
+import IndividualScreenMap from './src/screen/IndividualScreenMap';
 import Login from './src/screen/Login';
 import NeedyForm from './src/screen/NeedyForm';
 import Requests from './src/screen/Requests';
@@ -119,6 +120,9 @@ const LoginStackNavigator = createStackNavigator(
     },
     Requests: {
       screen: Requests,
+    },
+    IndividualScreenMap: {
+      screen: IndividualScreenMap,
     },
   },
   {

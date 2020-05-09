@@ -20,7 +20,11 @@ class CommmonButton extends React.Component {
         />
       );
     } else {
-      return <Text style={styles.TextStyle}>{this.props.Text} </Text>;
+      return (
+        <Text style={[styles.TextStyle, this.props.buttonTextStyle]}>
+          {this.props.Text}{' '}
+        </Text>
+      );
     }
   }
   render() {

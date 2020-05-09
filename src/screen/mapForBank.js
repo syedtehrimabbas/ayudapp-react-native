@@ -1,5 +1,16 @@
-import {ActivityIndicator, Button, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {Component} from 'react';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 import Geolocation from '@react-native-community/geolocation';
 import MapView from 'react-native-maps';
@@ -101,6 +112,20 @@ export default class mapForBank extends Component {
     } else {
       return (
         <View style={styles.container}>
+          {/* <View style={styles.headerStyle}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Image
+                source={Images.arrowBack}
+                resizeMode="contain"
+                style={{
+                  height: hp(6),
+                  width: wp(9),
+                  tintColor: 'white',
+                  marginLeft: wp(3),
+                }}
+              />
+            </TouchableOpacity>
+          </View> */}
           <View style={{flex: 2}}>
             {!!this.state.region.latitude && !!this.state.region.longitude && (
               <MapView

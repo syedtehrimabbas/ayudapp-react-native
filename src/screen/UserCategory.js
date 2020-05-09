@@ -70,19 +70,26 @@ export default class UserCategory extends Component {
           alignItems: 'center',
           alignSelf: 'center',
           justifyContent: 'center',
-          marginTop: hp(3),
+          marginTop: hp(5),
         }}>
         <Image
           source={item.icon}
           resizeMode="cover"
           style={{
-            height: hp(7.5),
+            height: hp(8),
             width: wp(15),
             marginTop: hp(2),
           }}
         />
         <CommmonButton
           onPress={() => this.onButtonPress(item.id)}
+          buttonTextStyle={{
+            fontWeight: 'bold',
+            fontSize: wp(5),
+            textAlign: 'center',
+            alignSelf: 'center',
+            width: wp(70),
+          }}
           TextStyle={{fontSize: 12}}
           style={{
             paddingTop: hp(2),

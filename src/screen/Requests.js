@@ -17,19 +17,26 @@ export default class Requests extends Component {
   }
   componentDidMount() {
     console.log('herererererer');
-    Services.getRequestedOrderByUser((UserRequests) => {
-      console.log('UserRequests', UserRequests);
-      let requests = UserRequests.requests.forEach((i) => {
-        console.log('i', i);
+    Services.getRequestedOrderByUser((userRequests) => {
+      console.log('userRequests', userRequests);
+      let userReq = userRequests.requests.filter((i) => {
         return i.requests.userId === auth().currentUser.uid;
       });
-      this.setState({requests: requests});
+      console.log('userReq', userReq);
+      this.setState({requests: userReq});
     });
   }
   render() {
     return (
       <View>
-        <FlatList data={this.state.requests} renderItem={this.renderRequest} />
+        <View style={styles.headerStyle}>
+          <Text style={styles.headerStyleText}>User Requests</Text>
+        </View>
+        <FlatList
+          data={this.state.requests}
+          renderItem={this.renderRequest}
+          style={{height: hp(86)}}
+        />
       </View>
     );
   }
@@ -37,8 +44,46 @@ export default class Requests extends Component {
     console.log('item', item);
 
     return (
-      <View style={styles.placeholderStyle}>
-        <Text style={{color: 'black'}}>{item.requests.eggs}</Text>
+      <View
+        style={{
+          width: wp(95),
+          justifyContent: 'center',
+          borderWidth: 1,
+          alignSelf: 'center',
+          paddingBottom: wp(1),
+        }}>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            Name:
+            {item.requests.userInformation.firstName}
+            {item.requests.userInformation.lastName}
+          </Text>
+        </View>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            Country: {item.requests.userInformation.country}
+          </Text>
+        </View>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            Province: {item.requests.userInformation.district}
+          </Text>
+        </View>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            City: {item.requests.userInformation.city}
+          </Text>
+        </View>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            Phone: {item.requests.userInformation.phone}
+          </Text>
+        </View>
+        <View style={styles.placeholderStyle}>
+          <Text style={styles.textStyle}>
+            Request time: {item.requests.orderTime}
+          </Text>
+        </View>
       </View>
     );
   };
@@ -47,9 +92,27 @@ export default class Requests extends Component {
 const styles = StyleSheet.create({
   placeholderStyle: {
     borderWidth: 1,
-    marginTop: hp(1),
     width: wp(90),
     alignSelf: 'center',
+    paddingTop: wp(0.5),
+    paddingBottom: wp(0.5),
+    alignSelf: 'center',
+    paddingLeft: wp(3),
+    marginTop: wp(1),
+  },
+  textStyle: {color: 'black'},
+  headerStyle: {
     backgroundColor: 'black',
+    width: wp(100),
+    height: hp(6),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: hp(2),
+  },
+  headerStyleText: {
+    color: '#fff',
+    fontSize: wp(6),
+    alignSelf: 'center',
+    fontWeight: 'bold',
   },
 });

@@ -9,5 +9,6 @@ const Images = {
   statistics: require('../Image/statistics.png'),
   home: require('../Image/home.png'),
   request: require('../Image/request.png'),
+  arrowBack: require('../Image/arrowBack.png'),
 };
 export default Images;

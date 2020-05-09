@@ -1,4 +1,8 @@
 import {Dimensions, StyleSheet} from 'react-native';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 export default styles = StyleSheet.create({
   container: {
@@ -35,5 +39,18 @@ export default styles = StyleSheet.create({
     position: 'absolute',
     bottom: 100,
     left: 10,
+  },
+  headerStyle: {
+    backgroundColor: 'black',
+    width: wp(100),
+    height: hp(6),
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  headerStyleText: {
+    color: '#fff',
+    fontSize: wp(6),
+    alignSelf: 'center',
+    fontWeight: 'bold',
   },
 });

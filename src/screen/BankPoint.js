@@ -1,177 +1,199 @@
-import {KeyboardAvoidingView, Picker, StyleSheet, Text, TextInput, View,} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Picker,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import React, {Component} from 'react';
-import {heightPercentageToDP as hp, widthPercentageToDP as wp,} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 import CommmonButton from './CommonButton';
 import FilePickerManager from 'react-native-file-picker';
 import Geolocation from '@react-native-community/geolocation';
+import ImagePicker from 'react-native-image-picker';
 import Loader from './Loader';
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
 
 export default class BankPoint extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            individual: false,
-            family: false,
-            ong: false,
-            country: '',
-            province: '',
-            district: '',
-            city: '',
-            town: '',
-            buildingAddress: '',
-            time: '',
-            term: '',
-            image: '',
-            userType: this.props.navigation.state.params.type,
-            selectedValue: '',
-            countries: [],
-            states: [],
-            citiesList: [],
-            selectedValueCountry: '',
-            selectedValueState: '',
-            loading: false,
-            latitude: 0,
-            longitude: 0,
-            accessToken: ''
-        };
-    }
-
-    onButtonPress = () => {
-        this.setState({loading: true});
-        const {
-            name,
-            selectedValueCountry,
-            selectedValueState,
-            district,
-            city,
-            town,
-            buildingAddress,
-            time,
-            term,
-            image,
-            userType,
-            latitude,
-            longitude,
-        } = this.state;
-        Services.addBankDetail(
-            name,
-            selectedValueCountry,
-            selectedValueState,
-            district,
-            city,
-            town,
-            buildingAddress,
-            time,
-            term,
-            image,
-            userType,
-            latitude,
-            longitude,
-            (res) => {
-                this.setState({loading: false});
-                alert('successfully submitted');
-                this.props.navigation.navigate('UserCategory');
-            },
-        );
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      individual: false,
+      family: false,
+      ong: false,
+      country: '',
+      province: '',
+      district: '',
+      city: '',
+      town: '',
+      buildingAddress: '',
+      time: '',
+      term: '',
+      image: '',
+      userType: this.props.navigation.state.params.type,
+      selectedValue: '',
+      countries: [],
+      states: [],
+      citiesList: [],
+      selectedValueCountry: '',
+      selectedValueState: '',
+      loading: false,
+      latitude: 0,
+      longitude: 0,
     };
+  }
 
-    componentDidMount() {
-        Geolocation.getCurrentPosition((info) =>
-            this.setState({
-                latitude: info.coords.latitude,
-                longitude: info.coords.longitude,
-            }),
-        );
-        Services.getTockenForUniversalApi((result) => {
-            if (result.isSuccess) {
-                this.setState({accessToken: result.token});
-                Services.fetchCountries(result.token, (countries) => {
-                    console.log('console', countries.data);
-                    this.setState({countries: countries.data});
-                });
-            }
+  onButtonPress = () => {
+    this.setState({loading: true});
+    const {
+      name,
+      selectedValueCountry,
+      selectedValueState,
+      district,
+      city,
+      town,
+      buildingAddress,
+      time,
+      term,
+      image,
+      userType,
+      latitude,
+      longitude,
+    } = this.state;
+    Services.addBankDetail(
+      name,
+      selectedValueCountry,
+      selectedValueState,
+      district,
+      city,
+      town,
+      buildingAddress,
+      time,
+      term,
+      image,
+      userType,
+      latitude,
+      longitude,
+      (res) => {
+        this.setState({loading: false});
+        alert('successfully submitted');
+        this.props.navigation.navigate('UserCategory');
+      },
+    );
+  };
+
+  componentDidMount() {
+    Geolocation.getCurrentPosition((info) =>
+      this.setState({
+        latitude: info.coords.latitude,
+        longitude: info.coords.longitude,
+      }),
+    );
+    Services.getTockenForUniversalApi((result) => {
+      console.log('userToken', result.token);
+      this.setState({accessToken: result.token});
+      if (result.isSuccess) {
+        Services.fetchCountries(result.token, (countries) => {
+          console.log('console', countries.data);
+          this.setState({countries: countries.data});
+          let countryToShow = countries.data.find((i) => {
+            return i.country_name === 'Panama';
+          });
+          this.setState({selectedValueCountry: countryToShow.country_name});
         });
-    }
+      }
+    });
+  }
 
-    setSelectedValue = () => {
-    };
+  setSelectedValue = () => {};
 
-    render() {
-        return (
-            <View>
-                <View style={styles.headerStyle}>
-                    <Text style={styles.headerStyleText}>
-                        Completa los datos y geolocalice el banco
-                    </Text>
-                    <Text style={styles.headerStyleText}>
-                        (Complete the data and geolocate the bank)
-                    </Text>
-                </View>
-                <Loader loading={this.state.loading}/>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-                    <ScrollView>
-                        <View style={styles.subContainerStyle}>
-                            <Text style={styles.detailTextStyle}>Nambre (Name)</Text>
-                            <Text style={styles.detailTextStyle}>
-                                Nombre del responsable (Responsible name)
-                            </Text>
+  render() {
+    return (
+      <View>
+        <View style={styles.headerStyle}>
+          <Text style={styles.headerStyleText}>
+            Completa los datos y geolocalice el banco
+          </Text>
+          <Text style={styles.headerStyleText}>
+            (Complete the data and geolocate the bank)
+          </Text>
+        </View>
+        <Loader loading={this.state.loading} />
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <ScrollView>
+            <View style={styles.subContainerStyle}>
+              <Text style={styles.detailTextStyle}>Nambre (Name)</Text>
+              <Text style={styles.detailTextStyle}>
+                Nombre del responsable (Responsible name)
+              </Text>
 
-                            <TextInput
-                                value={this.state.name}
-                                onChangeText={(name) => this.setState({name})}
-                                placeholder={'George Woalock '}
-                                style={styles.placeholderStyle}
-                            />
-                        </View>
-                        <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
-                            Proporcione los datos de ubicación:
-                        </Text>
-                        <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
-                            (Provide location data)
-                        </Text>
-                        <View style={styles.boxContainerSTyle}>
-                            <Picker
-                                selectedValue={this.state.selectedValueCountry}
-                                style={styles.placeholderStyle}
-                                onValueChange={(itemValue, itemIndex) => {
-                                    this.setState({selectedValueCountry: itemValue});
-                                    Services.getStatesFromApi(this.state.accessToken, itemValue, (state) => {
-                                        this.setState({states: state.data});
-                                    });
-                                }}>
-                                {this.state.countries.map((i) => {
-                                    return (
-                                        <Picker.Item
-                                            label={i.country_name}
-                                            value={i.country_name}
-                                        />
-                                    );
-                                })}
-                            </Picker>
-                        </View>
-                        <View style={styles.boxContainerSTyle}>
-                            <Picker
-                                selectedValue={this.state.selectedValueState}
-                                style={styles.placeholderStyle}
-                                onValueChange={(state, itemIndex) => {
-                                    this.setState({selectedValueState: state});
-                                    Services.getCitiesFromApi(this.state.accessToken, state, (cities) => {
-                                        this.setState({citiesList: cities.data});
-                                    });
-                                }}>
-                                {this.state.states.map((i) => {
-                                    return (
-                                        <Picker.Item label={i.state_name} value={i.state_name}/>
-                                    );
-                                })}
-                            </Picker>
-                        </View>
-                        {/* <View style={styles.boxContainerSTyle}>
+              <TextInput
+                value={this.state.name}
+                onChangeText={(name) => this.setState({name})}
+                placeholder={'George Woalock '}
+                style={styles.placeholderStyle}
+              />
+            </View>
+            <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
+              Proporcione los datos de ubicación:
+            </Text>
+            <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
+              (Provide location data)
+            </Text>
+            <View style={styles.boxContainerSTyle}>
+              <Picker
+                selectedValue={this.state.selectedValueCountry}
+                style={styles.placeholderStyle}
+                onValueChange={(itemValue, itemIndex) => {
+                  this.setState({selectedValueCountry: itemValue});
+                  Services.getStatesFromApi(
+                    this.state.accessToken,
+                    itemValue,
+                    (state) => {
+                      this.setState({states: state.data});
+                    },
+                  );
+                }}>
+                {this.state.countries.map((i) => {
+                  return (
+                    <Picker.Item
+                      label={i.country_name}
+                      value={i.country_name}
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
+            <View style={styles.boxContainerSTyle}>
+              <Picker
+                selectedValue={this.state.selectedValueState}
+                style={styles.placeholderStyle}
+                onValueChange={(state, itemIndex) => {
+                  this.setState({selectedValueState: state});
+                  Services.getCitiesFromApi(
+                    this.state.accessToken,
+                    state,
+                    (cities) => {
+                      this.setState({citiesList: cities.data});
+                    },
+                  );
+                }}>
+                {this.state.states.map((i) => {
+                  return (
+                    <Picker.Item label={i.state_name} value={i.state_name} />
+                  );
+                })}
+              </Picker>
+            </View>
+            {/* <View style={styles.boxContainerSTyle}>
               <Picker
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
@@ -185,151 +207,181 @@ export default class BankPoint extends Component {
                 <Picker.Item label="some" value="some" />
               </Picker>
             </View> */}
-                        <View style={styles.boxContainerSTyle}>
-                            <Picker
-                                selectedValue={this.state.city}
-                                style={styles.placeholderStyle}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    this.setState({city: itemValue})
-                                }>
-                                {this.state.citiesList.map((i) => {
-                                    return (
-                                        <Picker.Item label={i.city_name} value={i.city_name}/>
-                                    );
-                                })}
-                            </Picker>
-                        </View>
-                        <TextInput
-                            value={this.state.town}
-                            onChangeText={(town) => this.setState({town})}
-                            placeholder={'Barrio / Poblado (Town)'}
-                            style={styles.placeholderStyle}
-                        />
-                        <TextInput
-                            value={this.state.buildingAddress}
-                            onChangeText={(buildingAddress) =>
-                                this.setState({buildingAddress})
-                            }
-                            placeholder={'Casa o Ediﬁcio (# House or Building)'}
-                            style={styles.placeholderStyle}
-                        />
-                        <TextInput
-                            value={this.state.time}
-                            onChangeText={(time) => this.setState({time})}
-                            placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
-                            style={styles.placeholderStyle}
-                        />
-                        <TextInput
-                            value={this.state.term}
-                            onChangeText={(term) => this.setState({term})}
-                            placeholder={'Condiciones de uso (Terms of use) '}
-                            style={styles.placeholderStyle}
-                        />
-                        <Text
-                            style={{
-                                color: 'tomato',
-                                fontWeight: 'bold',
-                                alignSelf: 'center',
-                                marginTop: hp(3),
-                            }}
-                            onPress={() => this.props.navigation.navigate('mapForBank')}>
-                            go to google map
-                        </Text>
-                    </ScrollView>
-                </KeyboardAvoidingView>
-                <CommmonButton
-                    onPress={this.filePicker}
-                    style={{
-                        paddingTop: hp(2),
-                        backgroundColor: 'tomato',
-                        alignSelf: 'center',
-                        justifyContant: 'center',
-                        alignItems: 'center',
-                        paddingBottom: hp(2),
-                        paddingLeft: wp(15),
-                        paddingRight: wp(15),
-                        marginTop: hp(5),
-                        borderRadius: wp(1),
-                    }}
-                    Text="SELECT IMAGE"
-                />
-                <CommmonButton
-                    onPress={this.onButtonPress}
-                    style={{
-                        paddingTop: hp(2),
-                        backgroundColor: 'tomato',
-                        alignSelf: 'center',
-                        justifyContant: 'center',
-                        alignItems: 'center',
-                        paddingBottom: hp(2),
-                        paddingLeft: wp(15),
-                        paddingRight: wp(15),
-                        marginTop: hp(2),
-                        borderRadius: wp(1),
-                        marginBottom: hp(3),
-                    }}
-                    Text="SUBMIT"
-                />
+            <View style={styles.boxContainerSTyle}>
+              <Picker
+                selectedValue={this.state.city}
+                style={styles.placeholderStyle}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({city: itemValue})
+                }>
+                {this.state.citiesList.map((i) => {
+                  return (
+                    <Picker.Item label={i.city_name} value={i.city_name} />
+                  );
+                })}
+              </Picker>
             </View>
-        );
-    }
+            <TextInput
+              value={this.state.town}
+              onChangeText={(town) => this.setState({town})}
+              placeholder={'Barrio / Poblado (Town)'}
+              style={styles.placeholderStyle}
+            />
+            <TextInput
+              value={this.state.buildingAddress}
+              onChangeText={(buildingAddress) =>
+                this.setState({buildingAddress})
+              }
+              placeholder={'Casa o Ediﬁcio (# House or Building)'}
+              style={styles.placeholderStyle}
+            />
+            <TextInput
+              value={this.state.time}
+              onChangeText={(time) => this.setState({time})}
+              placeholder={'Horario para localizarlo(a) (Hours to locate you)'}
+              style={styles.placeholderStyle}
+            />
+            <TextInput
+              value={this.state.term}
+              onChangeText={(term) => this.setState({term})}
+              placeholder={'Condiciones de uso (Terms of use) '}
+              style={styles.placeholderStyle}
+            />
+            <Text
+              style={{
+                color: 'tomato',
+                fontWeight: 'bold',
+                alignSelf: 'center',
+                marginTop: hp(3),
+              }}
+              onPress={() => this.props.navigation.navigate('mapForBank')}>
+              go to google map
+            </Text>
+          </ScrollView>
+        </KeyboardAvoidingView>
+        <CommmonButton
+          onPress={this.filePicker}
+          style={{
+            paddingTop: hp(2),
+            backgroundColor: 'tomato',
+            alignSelf: 'center',
+            justifyContant: 'center',
+            alignItems: 'center',
+            paddingBottom: hp(2),
+            paddingLeft: wp(15),
+            paddingRight: wp(15),
+            marginTop: hp(5),
+            borderRadius: wp(1),
+          }}
+          Text="SELECT IMAGE"
+        />
+        <CommmonButton
+          onPress={this.onButtonPress}
+          style={{
+            paddingTop: hp(2),
+            backgroundColor: 'tomato',
+            alignSelf: 'center',
+            justifyContant: 'center',
+            alignItems: 'center',
+            paddingBottom: hp(2),
+            paddingLeft: wp(15),
+            paddingRight: wp(15),
+            marginTop: hp(2),
+            borderRadius: wp(1),
+            marginBottom: hp(3),
+          }}
+          Text="SUBMIT"
+        />
+      </View>
+    );
+  }
 
-    filePicker = () => {
-        FilePickerManager.showFilePicker(null, (response) => {
-            console.log('Response = ', response);
+  filePicker = () => {
+    //   FilePickerManager.showFilePicker(null, (response) => {
+    //     console.log('Response = ', response);
 
-            if (response.didCancel) {
-                console.log('User cancelled file picker');
-            } else if (response.error) {
-                console.log('FilePickerManager Error: ', response.error);
-            } else {
-                Services.uploadImage(response.path, (imageUpload) => {
-                    console.log('image', imageUpload);
-                });
-                this.setState({
-                    file: response,
-                });
-            }
-        });
+    //     if (response.didCancel) {
+    //       console.log('User cancelled file picker');
+    //     } else if (response.error) {
+    //       console.log('FilePickerManager Error: ', response.error);
+    //     } else {
+    //       Services.uploadImage(response.path, (imageUpload) => {
+    //         console.log('image', imageUpload);
+    //       });
+    //       this.setState({
+    //         file: response,
+    //       });
+    //     }
+    //   });
+    const options = {
+      title: 'Select Avatar',
+      customButtons: [{name: 'fb', title: 'Choose Photo from Facebook'}],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
     };
+    ImagePicker.showImagePicker((response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = {uri: response.uri};
+        Services.uploadImage(response.uri, (imageUpload) => {
+          console.log('image', imageUpload);
+        });
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source,
+        });
+      }
+    });
+  };
 }
 
 const styles = StyleSheet.create({
-    headerStyle: {
-        backgroundColor: 'black',
-        width: wp(100),
-        height: hp(7),
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    headerStyleText: {
-        color: '#fff',
-        fontSize: wp(4.5),
-        alignSelf: 'center',
-        fontWeight: 'bold',
-    },
-    boxContainerSTyle: {
-        borderWidth: 1,
-        marginTop: hp(1),
-        width: wp(90),
-        alignSelf: 'center',
-        height: hp(5),
-        paddingLeft: wp(2),
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    placeholderStyle: {
-        borderWidth: 1,
-        marginTop: hp(1),
-        width: wp(90),
-        alignSelf: 'center',
-        height: hp(5),
-        justifyContent: 'center',
-        paddingLeft: wp(2),
-    },
-    detailTextStyle: {width: wp(80), fontSize: wp(4), marginTop: hp(1)},
-    subContainerStyle: {
-        paddingLeft: wp(5),
-        paddingBottom: hp(1),
-    },
+  headerStyle: {
+    backgroundColor: 'black',
+    width: wp(100),
+    height: hp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerStyleText: {
+    color: '#fff',
+    fontSize: wp(4.5),
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
+  boxContainerSTyle: {
+    borderWidth: 1,
+    marginTop: hp(1),
+    width: wp(90),
+    alignSelf: 'center',
+    height: hp(5),
+    paddingLeft: wp(2),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  placeholderStyle: {
+    borderWidth: 1,
+    marginTop: hp(1),
+    width: wp(90),
+    alignSelf: 'center',
+    height: hp(5),
+    justifyContent: 'center',
+    paddingLeft: wp(2),
+  },
+  detailTextStyle: {width: wp(80), fontSize: wp(4), marginTop: hp(1)},
+  subContainerStyle: {
+    paddingLeft: wp(5),
+    paddingBottom: hp(1),
+  },
 });
