@@ -160,10 +160,7 @@ export default class IndividualHelperForm extends Component {
                   );
                 });
                 console.log('filteredRequests', filteredRequests);
-                this.setSelectedValue({
-                  requestsSearched: filteredRequests,
-                  showMapText: true,
-                });
+                this.setState({requestsSearched: filteredRequests});
               });
             }}>
             {this.state.citiesList.map((i) => {
@@ -192,8 +189,17 @@ export default class IndividualHelperForm extends Component {
           </Text>
         </View>
         <Text
-          style={{alignSelf: 'center', fontWeight: 'bold', fontSize: wp(5)}}
-          onPress={() => this.props.navigation.navigate('IndividualScreenMap')}>
+          style={{
+            alignSelf: 'center',
+            fontWeight: 'bold',
+            fontSize: wp(5),
+            color: 'tomato',
+          }}
+          onPress={() =>
+            this.props.navigation.navigate('IndividualScreenMap', {
+              requests: this.state.requestsSearched,
+            })
+          }>
           go to map
         </Text>
       </View>

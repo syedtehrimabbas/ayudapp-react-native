@@ -19,6 +19,7 @@ export default class IndividualScreenMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      requests: this.props.navigation.state.params.requests,
       userLocationAll: [],
       loading: true,
       region: {
@@ -32,22 +33,13 @@ export default class IndividualScreenMap extends Component {
       userLocation: '',
       regionChangeProgress: false,
     };
+    console.log('requests:', this.state.requests);
+    console.log('this.props:', this.props);
   }
-  componentDidMount() {
-    let ArrayLocation = [];
-    Services.getRequestedOrderByUser((res) => {
-      console.log('reeeeeee', res);
-      res.requests.map((i) => {
-        ArrayLocation.push({
-          latitude: i.requests.latitude,
-          longitude: i.requests.longitude,
-        });
-      });
-      console.log('ArrayLocation', ArrayLocation);
-      this.setState({userLocationAll: ArrayLocation});
-    });
-    Geolocation.getCurrentPosition(
+  async componentDidMount() {
+    await Geolocation.getCurrentPosition(
       (position) => {
+        console.log('positinon', position);
         const region = {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
@@ -98,15 +90,18 @@ export default class IndividualScreenMap extends Component {
           // onMapReady={this.onMapReady}
           // onRegionChangeComplete={this.onRegionChange}
         >
-          {this.state.userLocationAll.map((i) => {
-            <MapView.Marker
-              coordinate={{
-                latitude: i.latitude,
-                longitude: i.longitude,
-              }}
-              title={'Your Location'}
-              draggable
-            />;
+          {this.state.requests.map((i) => {
+            console.log('i', i);
+            {
+              <MapView.Marker
+                coordinate={{
+                  latitude: i.requests.latitude,
+                  longitude: i.requests.longitude,
+                }}
+                title={'Your Location'}
+                draggable
+              />;
+            }
           })}
         </MapView>
       </View>
