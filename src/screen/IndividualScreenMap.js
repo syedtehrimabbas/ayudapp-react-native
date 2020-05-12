@@ -1,18 +1,15 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
+    heightPercentageToDP,
+    heightPercentageToDP as hp,
+    widthPercentageToDP,
+    widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
 import Geolocation from '@react-native-community/geolocation';
 import Images from '../Image/Images';
 import MapView from 'react-native-maps';
-import Services from '../FireServices/FireServices';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default class IndividualScreenMap extends Component {

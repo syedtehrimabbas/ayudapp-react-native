@@ -78,7 +78,7 @@ export default class UserCategory extends Component {
         }}>
         <Image
           source={item.icon}
-          resizeMode="cover"
+          resizeMode="contain"
           style={{
             height: hp(8),
             width: wp(15),
@@ -90,8 +90,7 @@ export default class UserCategory extends Component {
           onPress={() => this.onButtonPress(item.id)}
           buttonTextStyle={{
             fontWeight: 'bold',
-            fontSize: wp(5),
-            textAlign: 'center',
+            fontSize: wp(4),
             alignSelf: 'center',
             width: wp(70),
           }}
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
   headerStyle: {
     backgroundColor: colors.purple,
     width: wp(100),
-    height: hp(9),
+    height: hp(11),
   },
   headerStyleText: {
     color: '#fff',
