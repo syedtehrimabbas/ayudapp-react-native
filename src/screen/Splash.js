@@ -11,7 +11,7 @@ export default class Splash extends Component {
         setTimeout(() => {
             AsyncStorage.getItem('USER').then((res) => {
                 console.log('user id asy', res);
-                var screenName = "";
+                let screenName = "";
                 if (res !== null) {
                     screenName = 'UserCategory'
                 } else {
