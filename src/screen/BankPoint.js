@@ -1,9 +1,11 @@
 import {
+  Image,
   KeyboardAvoidingView,
   Picker,
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {Component} from 'react';
@@ -19,6 +21,7 @@ import ImagePicker from 'react-native-image-picker';
 import Loader from './Loader';
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
+import colors from '../theme/colors';
 
 export default class BankPoint extends Component {
   constructor(props) {
@@ -47,6 +50,8 @@ export default class BankPoint extends Component {
       loading: false,
       latitude: 0,
       longitude: 0,
+      lat: 0,
+      long: 0,
     };
   }
 
@@ -64,8 +69,8 @@ export default class BankPoint extends Component {
       term,
       image,
       userType,
-      latitude,
-      longitude,
+      lat,
+      long,
     } = this.state;
     Services.addBankDetail(
       name,
@@ -79,8 +84,8 @@ export default class BankPoint extends Component {
       term,
       image,
       userType,
-      latitude,
-      longitude,
+      lat,
+      long,
       (res) => {
         this.setState({loading: false});
         alert('successfully submitted');
@@ -90,6 +95,15 @@ export default class BankPoint extends Component {
   };
 
   componentDidMount() {
+    this.focusListner = this.props.navigation.addListener('didFocus', () => {
+      console.log('pprops here -----', this.props);
+      if (this.props.navigation.state.params.latitude !== undefined) {
+        this.setState({
+          lat: this.props.navigation.state.params.latitude,
+          long: this.props.navigation.state.params.longitude,
+        });
+      }
+    });
     Geolocation.getCurrentPosition((info) =>
       this.setState({
         latitude: info.coords.latitude,
@@ -128,7 +142,10 @@ export default class BankPoint extends Component {
         <Loader loading={this.state.loading} />
         <KeyboardAvoidingView
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-          <ScrollView>
+          <ScrollView
+            style={{
+              height: hp(91),
+            }}>
             <View style={styles.subContainerStyle}>
               <Text style={styles.detailTextStyle}>Nambre (Name)</Text>
               <Text style={styles.detailTextStyle}>
@@ -148,7 +165,7 @@ export default class BankPoint extends Component {
             <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
               (Provide location data)
             </Text>
-            <View style={styles.boxContainerSTyle}>
+            <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValueCountry}
                 style={styles.placeholderStyle}
@@ -172,7 +189,7 @@ export default class BankPoint extends Component {
                 })}
               </Picker>
             </View>
-            <View style={styles.boxContainerSTyle}>
+            <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValueState}
                 style={styles.placeholderStyle}
@@ -193,7 +210,7 @@ export default class BankPoint extends Component {
                 })}
               </Picker>
             </View>
-            {/* <View style={styles.boxContainerSTyle}>
+            {/* <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValue}
                 style={styles.placeholderStyle}
@@ -207,7 +224,7 @@ export default class BankPoint extends Component {
                 <Picker.Item label="some" value="some" />
               </Picker>
             </View> */}
-            <View style={styles.boxContainerSTyle}>
+            <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.city}
                 style={styles.placeholderStyle}
@@ -257,41 +274,30 @@ export default class BankPoint extends Component {
               onPress={() => this.props.navigation.navigate('mapForBank')}>
               go to google map
             </Text>
+
+            <TouchableOpacity onPress={this.filePicker}>
+              <View style={styles.ButtonContainer}>
+                <Text style={[styles.buttonTxt]}>Select Image</Text>
+                <Image
+                  resizeMode="contain"
+                  source={require('../Image/botton-Arrow.png')}
+                  style={{marginRight: 3}}
+                />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={this.onButtonPress}>
+              <View style={styles.ButtonContainer}>
+                <Text style={[styles.buttonTxt]}>Submit</Text>
+                <Image
+                  resizeMode="contain"
+                  source={require('../Image/botton-Arrow.png')}
+                  style={{marginRight: 3}}
+                />
+              </View>
+            </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
-        <CommmonButton
-          onPress={this.filePicker}
-          style={{
-            paddingTop: hp(2),
-            backgroundColor: 'tomato',
-            alignSelf: 'center',
-            justifyContant: 'center',
-            alignItems: 'center',
-            paddingBottom: hp(2),
-            paddingLeft: wp(15),
-            paddingRight: wp(15),
-            marginTop: hp(5),
-            borderRadius: wp(1),
-          }}
-          Text="SELECT IMAGE"
-        />
-        <CommmonButton
-          onPress={this.onButtonPress}
-          style={{
-            paddingTop: hp(2),
-            backgroundColor: 'tomato',
-            alignSelf: 'center',
-            justifyContant: 'center',
-            alignItems: 'center',
-            paddingBottom: hp(2),
-            paddingLeft: wp(15),
-            paddingRight: wp(15),
-            marginTop: hp(2),
-            borderRadius: wp(1),
-            marginBottom: hp(3),
-          }}
-          Text="SUBMIT"
-        />
       </View>
     );
   }
@@ -348,11 +354,10 @@ export default class BankPoint extends Component {
 
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: colors.purple,
     width: wp(100),
-    height: hp(7),
+    height: hp(9),
     justifyContent: 'center',
-    alignItems: 'center',
   },
   headerStyleText: {
     color: '#fff',
@@ -371,17 +376,48 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholderStyle: {
-    borderWidth: 1,
-    marginTop: hp(1),
-    width: wp(90),
-    alignSelf: 'center',
-    height: hp(5),
+    flexDirection: 'row',
     justifyContent: 'center',
-    paddingLeft: wp(2),
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderWidth: 0.5,
+    borderColor: colors.grey,
+    height: 58,
+    borderRadius: 8,
+    margin: 10,
+    width: wp(90),
   },
   detailTextStyle: {width: wp(80), fontSize: wp(4), marginTop: hp(1)},
   subContainerStyle: {
     paddingLeft: wp(5),
     paddingBottom: hp(1),
+  },
+  borderStyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ButtonContainer: {
+    flexDirection: 'row',
+    backgroundColor: colors.purple,
+    justifyContent: 'center',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingRight: 22,
+    alignItems: 'center',
+    margin: 14,
+    height: 58,
+    borderColor: colors.black,
+  },
+  buttonTxt: {
+    fontSize: Platform.OS === 'ios' ? 20 : 18,
+    flex: 1,
+    margin: 16,
+    color: colors.white,
+    paddingLeft: 11,
   },
 });

@@ -70,25 +70,25 @@ export default class IndividualScreenMap extends Component {
       {enableHighAccuracy: false, timeout: 200000, maximumAge: 5000},
     );
   }
-  onMarkerPress = (marker) => {
-    console.log('marker-------------------', marker);
-    let coords = [];
-    let markerLocation = {
-      latitude: marker.latitude,
-      longitude: marker.polLong,
-    };
-    let currentLocation = {
-      latitude: this.state.lat,
-      longitude: this.state.long,
-    };
-    coords.push(currentLocation, markerLocation);
-    this.setState({
-      polCoords: coords,
-      poliline: true,
-      polLat: marker.latitude,
-      polLong: marker.polLong,
-    });
-  };
+  // onMarkerPress = (marker) => {
+  //   console.log('marker-------------------', marker);
+  //   let coords = [];
+  //   let markerLocation = {
+  //     latitude: marker.latitude,
+  //     longitude: marker.polLong,
+  //   };
+  //   let currentLocation = {
+  //     latitude: this.state.lat,
+  //     longitude: this.state.long,
+  //   };
+  //   coords.push(currentLocation, markerLocation);
+  //   this.setState({
+  //     polCoords: coords,
+  //     poliline: true,
+  //     polLat: marker.latitude,
+  //     polLong: marker.polLong,
+  //   });
+  // };
   render() {
     return (
       <View>
@@ -137,7 +137,7 @@ export default class IndividualScreenMap extends Component {
             );
           })}
 
-          <MapView.Polyline
+          {/* <MapView.Polyline
             coordinates={this.state.polCoords}
             strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
             strokeColors={[
@@ -149,7 +149,7 @@ export default class IndividualScreenMap extends Component {
               '#7F0000',
             ]}
             strokeWidth={6}
-          />
+          /> */}
           {/* {this.state.poliline && (
            
           )} */}

@@ -112,7 +112,7 @@ export default class mapForBank extends Component {
     } else {
       return (
         <View style={styles.container}>
-          {/* <View style={styles.headerStyle}>
+          {/* <View headerStyle}>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Image
                 source={Images.arrowBack}
@@ -182,8 +182,12 @@ export default class mapForBank extends Component {
             <View style={styles.btnContainer}>
               <Button
                 title="PICK THIS LOCATION"
-                disabled={this.state.regionChangeProgress}
-                onPress={this.onLocationSelect}></Button>
+                onPress={() =>
+                  this.props.navigation.navigate('BankPoint', {
+                    latitude: this.state.region.latitude,
+                    longitude: this.state.region.longitude,
+                  })
+                }></Button>
             </View>
           </View>
         </View>

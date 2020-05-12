@@ -7,6 +7,7 @@ import {
 
 import Services from '../FireServices/FireServices';
 import auth from '@react-native-firebase/auth';
+import colors from '../theme/colors';
 
 export default class Requests extends Component {
   constructor(props) {
@@ -48,38 +49,41 @@ export default class Requests extends Component {
         style={{
           width: wp(95),
           justifyContent: 'center',
-          borderWidth: 1,
           alignSelf: 'center',
           paddingBottom: wp(1),
+          marginTop: wp(2),
+          borderWidth: 0.5,
+          backgroundColor: colors.white,
+          borderColor: colors.grey,
         }}>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             Name:
             {item.requests.userInformation.firstName}
             {item.requests.userInformation.lastName}
           </Text>
         </View>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             Country: {item.requests.userInformation.country}
           </Text>
         </View>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             Province: {item.requests.userInformation.district}
           </Text>
         </View>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             City: {item.requests.userInformation.city}
           </Text>
         </View>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             Phone: {item.requests.userInformation.phone}
           </Text>
         </View>
-        <View style={styles.placeholderStyle}>
+        <View style={styles.borderStyle}>
           <Text style={styles.textStyle}>
             Request time: {item.requests.orderTime}
           </Text>
@@ -102,17 +106,25 @@ const styles = StyleSheet.create({
   },
   textStyle: {color: 'black'},
   headerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: colors.purple,
     width: wp(100),
     height: hp(6),
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: hp(2),
   },
   headerStyleText: {
     color: '#fff',
     fontSize: wp(6),
     alignSelf: 'center',
     fontWeight: 'bold',
+  },
+  borderStyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: wp(5),
   },
 });

@@ -14,6 +14,7 @@ import {
 
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
+import colors from '../theme/colors';
 
 export default class IndividualHelperForm extends Component {
   constructor(props) {
@@ -101,7 +102,7 @@ export default class IndividualHelperForm extends Component {
           }}>
           (Find it by filters)
         </Text>
-        <View style={styles.boxContainerSTyle}>
+        <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.selectedValueCountry}
             style={styles.placeholderStyle}
@@ -122,7 +123,7 @@ export default class IndividualHelperForm extends Component {
             })}
           </Picker>
         </View>
-        <View style={styles.boxContainerSTyle}>
+        <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.selectedValueState}
             style={styles.placeholderStyle}
@@ -142,7 +143,7 @@ export default class IndividualHelperForm extends Component {
           </Picker>
         </View>
 
-        <View style={styles.boxContainerSTyle}>
+        <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.city}
             style={styles.placeholderStyle}
@@ -209,11 +210,10 @@ export default class IndividualHelperForm extends Component {
 
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: colors.purple,
     width: wp(100),
-    height: hp(7),
+    height: hp(9),
     justifyContent: 'center',
-    alignItems: 'center',
   },
   headerStyleText: {
     color: '#fff',
@@ -228,13 +228,16 @@ const styles = StyleSheet.create({
     paddingBottom: hp(1),
   },
   placeholderStyle: {
-    borderWidth: 1,
-    marginTop: hp(1),
-    width: wp(90),
-    alignSelf: 'center',
-    height: hp(5),
+    flexDirection: 'row',
     justifyContent: 'center',
-    paddingLeft: wp(2),
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderWidth: 0.5,
+    borderColor: colors.grey,
+    height: 58,
+    borderRadius: 8,
+    margin: 10,
+    width: wp(85),
   },
   bannerTextStyle: {
     color: 'white',
@@ -250,6 +253,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: hp(5),
     paddingLeft: wp(2),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  borderStyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },

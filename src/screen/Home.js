@@ -21,6 +21,7 @@ import Images from '../Image/Images';
 import Loader from '../screen/Loader';
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
+import colors from '../theme/colors';
 
 let helpType = '';
 let coronaDiseaseType = '';
@@ -722,7 +723,7 @@ export default class Home extends Component {
                     ?Enfermedades cronicas en usted o algun familiar?(Chronic
                     disease in you or a family member?)
                   </Text>
-                  <View style={styles.boxContainerSTyle}>
+                  <View style={styles.borderStyle}>
                     <Text style={{marginRight: wp(50)}}>Chronic disease</Text>
                     {!this.state.coronaDisease ? (
                       <TouchableOpacity
@@ -822,7 +823,7 @@ export default class Home extends Component {
                     Seleccion Ios articulos de aseo personal y limieza de hogar
                     que necesita- (Cleaning)
                   </Text>
-                  <View style={styles.boxContainerSTyle}>
+                  <View style={styles.borderStyle}>
                     <Text>jabon de lavar - (Washing soap)</Text>
                     {!this.state.soap ? (
                       <TouchableOpacity
@@ -983,7 +984,7 @@ export default class Home extends Component {
                     Seleccione Ios alimentos que necesita - (Food)
                   </Text>
 
-                  <View style={styles.boxContainerSTyle}>
+                  <View style={styles.borderStyle}>
                     <Text>Huevos - (Eggs)</Text>
                     {!this.state.egg ? (
                       <TouchableOpacity
@@ -1311,7 +1312,7 @@ export default class Home extends Component {
                     Medicamentos que necesita - (Medications)
                   </Text>
 
-                  <View style={styles.boxContainerSTyle}>
+                  <View style={styles.borderStyle}>
                     <Text>Malestar gastrointestinal - (Gastrointestinal)</Text>
                     {!this.state.medicine ? (
                       <TouchableOpacity
@@ -1461,10 +1462,10 @@ export default class Home extends Component {
                     gobiemo (Employment status)
                   </Text>
 
-                  <View style={styles.boxContainerSTyle}>
+                  <View style={styles.borderStyle}>
                     <Picker
                       selectedValue={this.state.employment}
-                      style={styles.placeholderStyle}
+                      style={{width: wp(90)}}
                       onValueChange={(itemValue, itemIndex) =>
                         this.setState({employment: itemValue})
                       }>
@@ -1521,22 +1522,16 @@ export default class Home extends Component {
                   </Text>
                 </View>
 
-                <CommmonButton
-                  onPress={this.onButtonPress}
-                  style={{
-                    paddingTop: hp(2),
-                    backgroundColor: 'tomato',
-                    alignSelf: 'center',
-                    justifyContant: 'center',
-                    alignItems: 'center',
-                    paddingBottom: hp(2),
-                    paddingLeft: wp(15),
-                    paddingRight: wp(15),
-                    marginTop: hp(5),
-                    borderRadius: wp(1),
-                  }}
-                  Text="SUBMIT"
-                />
+                <TouchableOpacity onPress={this.onButtonPress}>
+                  <View style={styles.ButtonContainer}>
+                    <Text style={[styles.buttonTxt]}>Submit</Text>
+                    <Image
+                      resizeMode="contain"
+                      source={require('../Image/botton-Arrow.png')}
+                      style={{marginRight: 3}}
+                    />
+                  </View>
+                </TouchableOpacity>
               </ScrollView>
             </KeyboardAvoidingView>
           </View>
@@ -1548,11 +1543,10 @@ export default class Home extends Component {
 
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: colors.purple,
     width: wp(100),
     height: hp(6),
     justifyContent: 'center',
-    alignItems: 'center',
   },
   headerStyleText: {
     color: '#fff',
@@ -1565,12 +1559,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholderStyle: {
-    borderWidth: 1,
-    marginTop: hp(1),
-    width: wp(90),
-    alignSelf: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
-    paddingLeft: wp(2),
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderWidth: 0.5,
+    borderColor: colors.grey,
+    height: 58,
+    borderRadius: 8,
+    margin: 10,
   },
   detailTextStyle: {width: wp(80), fontSize: wp(3), marginTop: hp(1)},
   subContainerStyle: {
@@ -1579,14 +1576,16 @@ const styles = StyleSheet.create({
     paddingBottom: hp(1),
   },
   inPUTminiStyle: {
-    borderWidth: 1,
-    marginTop: hp(1),
-    width: wp(90),
-    alignSelf: 'center',
-    height: hp(5),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderWidth: 0.5,
+    borderColor: colors.grey,
+    height: 58,
     width: wp(50),
-    paddingLeft: wp(2),
-    marginLeft: wp(2),
+    borderRadius: 8,
+    margin: 10,
   },
   boxContainerSTyle: {
     borderWidth: 1,
@@ -1606,5 +1605,43 @@ const styles = StyleSheet.create({
     borderWidth: 0.4,
     elevation: 1,
     borderColor: '#f4f4f4',
+  },
+  borderStyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingLeft: wp(2),
+  },
+  borderStyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ButtonContainer: {
+    flexDirection: 'row',
+    backgroundColor: colors.purple,
+    justifyContent: 'center',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingRight: 22,
+    alignItems: 'center',
+    margin: 14,
+    height: 58,
+    borderColor: colors.black,
+  },
+  buttonTxt: {
+    fontSize: Platform.OS === 'ios' ? 20 : 18,
+    flex: 1,
+    margin: 16,
+    color: colors.white,
+    paddingLeft: 11,
   },
 });

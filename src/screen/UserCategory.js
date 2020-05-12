@@ -8,7 +8,9 @@ import {
 import CommmonButton from './CommonButton';
 import {FlatList} from 'react-native-gesture-handler';
 import Images from '../Image/Images';
+import Loader from './Loader';
 import Services from '../FireServices/FireServices';
+import colors from '../theme/colors';
 
 let button = [
   {
@@ -46,7 +48,9 @@ let userStatus = '';
 export default class UserCategory extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
   render() {
     return (
@@ -81,6 +85,7 @@ export default class UserCategory extends Component {
             marginTop: hp(2),
           }}
         />
+        <Loader loading={this.state.loading} />
         <CommmonButton
           onPress={() => this.onButtonPress(item.id)}
           buttonTextStyle={{
@@ -110,10 +115,12 @@ export default class UserCategory extends Component {
     );
   };
   onButtonPress = (id) => {
+    this.setState({loading: true});
     if (id === 1) {
       userStatus = 'Needy';
       Services.updateUserStatus(userStatus, (res) => {
         if (res.isSuccess) {
+          this.setState({loading: false});
           this.props.navigation.navigate('Home', {type: userStatus});
         }
       });
@@ -121,6 +128,8 @@ export default class UserCategory extends Component {
       userStatus = 'IndevidualHelper';
       Services.updateUserStatus(userStatus, (res) => {
         if (res.isSuccess) {
+          this.setState({loading: false});
+
           this.props.navigation.navigate('IndividualHelperForm');
         }
       });
@@ -128,6 +137,8 @@ export default class UserCategory extends Component {
       userStatus = 'CompanyHelper';
       Services.updateUserStatus(userStatus, (res) => {
         if (res.isSuccess) {
+          this.setState({loading: false});
+
           this.props.navigation.navigate('IndividualHelperForm');
         }
       });
@@ -135,25 +146,24 @@ export default class UserCategory extends Component {
       userStatus = 'BankPoint';
       Services.updateUserStatus(userStatus, (res) => {
         if (res.isSuccess) {
+          this.setState({loading: false});
+
           this.props.navigation.navigate('BankPoint', {type: userStatus});
         }
       });
     } else if (id === 5) {
-      userStatus = 'statics';
-      Services.updateUserStatus(userStatus, (res) => {
-        if (res.isSuccess) {
-          this.props.navigation.navigate('Statics', {type: userStatus});
-        }
-      });
+      this.setState({loading: false});
+
+      this.props.navigation.navigate('Statics', {type: userStatus});
     }
   };
 }
 
 const styles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: 'black',
+    backgroundColor: colors.purple,
     width: wp(100),
-    height: hp(10),
+    height: hp(9),
   },
   headerStyleText: {
     color: '#fff',

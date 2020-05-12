@@ -13,6 +13,7 @@ import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import colors from '../theme/colors';
 
 export default class Login extends Component {
   componentDidMount() {
@@ -76,10 +77,11 @@ export default class Login extends Component {
               source={Images.lock}
             />
           </View>
-          <CommmonButton
+
+          <View
             style={{
               paddingTop: hp(2),
-              backgroundColor: 'tomato',
+              backgroundColor: colors.purple,
               alignSelf: 'center',
               justifyContant: 'center',
               alignItems: 'center',
@@ -88,9 +90,12 @@ export default class Login extends Component {
               paddingRight: wp(15),
               marginTop: hp(5),
               borderRadius: wp(1),
-            }}
-            Text="Soy nuevo en Ayudapp"
-          />
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold'}}>
+              {' '}
+              Soy nuevo en Ayudapp
+            </Text>
+          </View>
           <TouchableOpacity onPress={this.onGoogleSignIn}>
             <Image
               resizeMode="contain"
