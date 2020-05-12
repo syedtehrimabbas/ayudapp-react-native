@@ -138,6 +138,13 @@ export default class UserCategory extends Component {
           this.props.navigation.navigate('BankPoint', {type: userStatus});
         }
       });
+    } else if (id === 5) {
+      userStatus = 'statics';
+      Services.updateUserStatus(userStatus, (res) => {
+        if (res.isSuccess) {
+          this.props.navigation.navigate('Statics', {type: userStatus});
+        }
+      });
     }
   };
 }

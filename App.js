@@ -18,6 +18,7 @@ import NeedyForm from './src/screen/NeedyForm';
 import Requests from './src/screen/Requests';
 import RequsetForm from './src/screen/RequsetForm';
 import Splash from './src/screen/Splash';
+import Statics from './src/screen/Statics';
 import UserCategory from './src/screen/UserCategory';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -96,6 +97,9 @@ const LoginStackNavigator = createStackNavigator(
     // },
     Splash: {
       screen: Splash,
+    },
+    Statics: {
+      screen: Statics,
     },
     Login: {
       screen: Login,

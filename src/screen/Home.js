@@ -1,5 +1,6 @@
 import {
   CheckBox,
+  Image,
   KeyboardAvoidingView,
   Picker,
   StyleSheet,
@@ -16,6 +17,7 @@ import {
 
 import CommmonButton from './CommonButton';
 import Geolocation from '@react-native-community/geolocation';
+import Images from '../Image/Images';
 import Loader from '../screen/Loader';
 import {ScrollView} from 'react-native-gesture-handler';
 import Services from '../FireServices/FireServices';
@@ -721,16 +723,40 @@ export default class Home extends Component {
                     disease in you or a family member?)
                   </Text>
                   <View style={styles.boxContainerSTyle}>
-                    <Text>Chronic disease</Text>
-                    <CheckBox
-                      value={this.state.coronaDisease}
-                      onValueChange={() =>
-                        this.setState({
-                          coronaDisease: !this.state.coronaDisease,
-                        })
-                      }
-                      style={styles.checkbox}
-                    />
+                    <Text style={{marginRight: wp(50)}}>Chronic disease</Text>
+                    {!this.state.coronaDisease ? (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            coronaDisease: !this.state.coronaDisease,
+                          })
+                        }>
+                        <Image
+                          source={Images.plus}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            coronaDisease: !this.state.coronaDisease,
+                          })
+                        }>
+                        <Image
+                          source={Images.subtract}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                   {/* ------------- option container -------------- */}
                   {this.state.coronaDisease && (
@@ -798,13 +824,41 @@ export default class Home extends Component {
                   </Text>
                   <View style={styles.boxContainerSTyle}>
                     <Text>jabon de lavar - (Washing soap)</Text>
-                    <CheckBox
-                      value={this.state.soap}
-                      onValueChange={() =>
-                        this.setState({soap: !this.state.soap})
-                      }
-                      style={styles.checkbox}
-                    />
+                    {!this.state.soap ? (
+                      <TouchableOpacity
+                        style={{marginLeft: wp(22)}}
+                        onPress={() =>
+                          this.setState({
+                            soap: !this.state.soap,
+                          })
+                        }>
+                        <Image
+                          source={Images.plus}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{marginLeft: wp(22)}}
+                        onPress={() =>
+                          this.setState({
+                            soap: !this.state.soap,
+                          })
+                        }>
+                        <Image
+                          source={Images.subtract}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
                 {/* ----------------------------- Cleaning option --------------------------- */}
@@ -931,13 +985,41 @@ export default class Home extends Component {
 
                   <View style={styles.boxContainerSTyle}>
                     <Text>Huevos - (Eggs)</Text>
-                    <CheckBox
-                      value={this.state.egg}
-                      onValueChange={() =>
-                        this.setState({egg: !this.state.egg})
-                      }
-                      style={styles.checkbox}
-                    />
+                    {!this.state.egg ? (
+                      <TouchableOpacity
+                        style={{marginLeft: wp(50)}}
+                        onPress={() =>
+                          this.setState({
+                            egg: !this.state.egg,
+                          })
+                        }>
+                        <Image
+                          source={Images.plus}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        style={{marginLeft: wp(50)}}
+                        onPress={() =>
+                          this.setState({
+                            egg: !this.state.egg,
+                          })
+                        }>
+                        <Image
+                          source={Images.subtract}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
 
@@ -1231,13 +1313,39 @@ export default class Home extends Component {
 
                   <View style={styles.boxContainerSTyle}>
                     <Text>Malestar gastrointestinal - (Gastrointestinal)</Text>
-                    <CheckBox
-                      value={this.state.medicine}
-                      onValueChange={() =>
-                        this.setState({medicine: !this.state.medicine})
-                      }
-                      style={styles.checkbox}
-                    />
+                    {!this.state.medicine ? (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            medicine: !this.state.medicine,
+                          })
+                        }>
+                        <Image
+                          source={Images.plus}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.setState({
+                            medicine: !this.state.medicine,
+                          })
+                        }>
+                        <Image
+                          source={Images.subtract}
+                          style={{
+                            height: hp(7),
+                            width: wp(8),
+                            resizeMode: 'contain',
+                          }}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
 

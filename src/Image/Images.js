@@ -10,5 +10,7 @@ const Images = {
   home: require('../Image/home.png'),
   request: require('../Image/request.png'),
   arrowBack: require('../Image/arrowBack.png'),
+  plus: require('../Image/plus.png'),
+  subtract: require('../Image/subtract.png'),
 };
 export default Images;
