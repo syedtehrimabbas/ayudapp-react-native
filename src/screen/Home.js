@@ -585,12 +585,27 @@ export default class Home extends Component {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
+            <Image
+              source={Images.logo}
+              style={{
+                height: hp(10),
+                width: wp(40),
+                resizeMode: 'contain',
+                alignSelf: 'center',
+              }}
+            />
             <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
               {this.state.textToShow}
             </Text>
             <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
               <Text
-                style={{fontSize: wp(4), fontWeight: 'bold', marginTop: hp(5)}}>
+                style={{
+                  fontSize: wp(4),
+                  fontWeight: 'bold',
+                  marginTop: hp(5),
+                  textDecorationLine: 'underline',
+                  textDecorationColor: 'blue',
+                }}>
                 GO BACK
               </Text>
             </TouchableOpacity>
@@ -602,9 +617,19 @@ export default class Home extends Component {
                 Completa Ios siguientes datos
               </Text>
             </View>
+
             <KeyboardAvoidingView
               behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-              <ScrollView style={{height: hp(86)}}>
+              <ScrollView style={{height: hp(88)}}>
+                <Image
+                  source={Images.logo}
+                  style={{
+                    height: hp(10),
+                    width: wp(40),
+                    resizeMode: 'contain',
+                    alignSelf: 'center',
+                  }}
+                />
                 <View style={{paddingLeft: wp(5), borderBottomWidth: 1}}>
                   <Text>Usted necesita</Text>
                   <View style={styles.oPtioncontainer}>

@@ -11,7 +11,6 @@ import Images from '../Image/Images';
 
 export default class Splash extends Component {
   componentDidMount() {
-    AsyncStorage.removeItem('USER');
     setTimeout(() => {
       AsyncStorage.getItem('USER').then((res) => {
         console.log('user id asy', res);
