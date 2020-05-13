@@ -135,10 +135,10 @@ export default class Statics extends Component {
           <Text style={styles.headerStyleText}>Estadisticas de Ayudapp</Text>
           <Text style={styles.headerStyleText}>(Ayudapp Statistics)</Text>
         </View>
-        <View style={styles.borderStyle}>
+        <View style={styles.pickerborderstyle}>
           <Picker
             selectedValue={this.state.selectedValueCountry}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({selectedValueCountry: itemValue});
               Services.getStatesFromApi(
@@ -156,10 +156,10 @@ export default class Statics extends Component {
             })}
           </Picker>
         </View>
-        <View style={styles.borderStyle}>
+        <View style={styles.pickerborderstyle}>
           <Picker
             selectedValue={this.state.selectedValueState}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(state, itemIndex) => {
               this.setState({selectedValueState: state});
               Services.getCitiesFromApi(
@@ -175,10 +175,10 @@ export default class Statics extends Component {
             })}
           </Picker>
         </View>
-        {/* <View style={styles.borderStyle}>
+        {/* <View style={styles.pickerborderstyle}>
               <Picker
                 selectedValue={this.state.selectedValue}
-                style={styles.placeholderStyle}
+                style={styles.pickerStyle}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setSelectedValue(itemValue)
                 }>
@@ -189,10 +189,10 @@ export default class Statics extends Component {
                 <Picker.Item label="some" value="some" />
               </Picker>
             </View> */}
-        <View style={styles.borderStyle}>
+        <View style={styles.pickerborderstyle}>
           <Picker
             selectedValue={this.state.city}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({city: itemValue});
               this.getUserOrders();
@@ -361,6 +361,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  pickerStyle: {
+    alignItems: 'center',
+    height: 58,
+  },
   ButtonContainer: {
     flexDirection: 'row',
     backgroundColor: colors.purple,
@@ -379,5 +383,14 @@ const styles = StyleSheet.create({
     margin: 16,
     color: colors.white,
     paddingLeft: 11,
+  },
+  pickerborderstyle: {
+    height: 58,
+    borderWidth: 0.5,
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    margin: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });

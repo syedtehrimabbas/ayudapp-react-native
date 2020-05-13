@@ -63,12 +63,11 @@ export default class IndividualHelperForm extends Component {
           <Text style={styles.detailTextStyle}>
             Este nombre sera publico (this name will be public)
           </Text>
-
-          <TextInput
-            placeholder={'Robert De Nolom'}
-            style={styles.placeholderStyle}
-          />
         </View>
+        <TextInput
+          placeholder={'Robert De Nolom'}
+          style={styles.placeholderStyle}
+        />
         <View
           style={{
             backgroundColor: '#131875',
@@ -105,7 +104,7 @@ export default class IndividualHelperForm extends Component {
         <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.selectedValueCountry}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({selectedValueCountry: itemValue});
               Services.getStatesFromApi(
@@ -126,7 +125,7 @@ export default class IndividualHelperForm extends Component {
         <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.selectedValueState}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(state, itemIndex) => {
               this.setState({selectedValueState: state});
               Services.getCitiesFromApi(
@@ -146,7 +145,7 @@ export default class IndividualHelperForm extends Component {
         <View style={styles.borderStyle}>
           <Picker
             selectedValue={this.state.city}
-            style={styles.placeholderStyle}
+            style={styles.pickerStyle}
             onValueChange={(itemValue, itemIndex) => {
               this.setState({city: itemValue});
               Services.getRequestedOrderByUser((allRequests) => {
@@ -224,7 +223,6 @@ const styles = StyleSheet.create({
   detailTextStyle: {width: wp(80), fontSize: wp(4), marginTop: hp(1)},
   subContainerStyle: {
     paddingLeft: wp(5),
-    borderBottomWidth: 1,
     paddingBottom: hp(1),
   },
   placeholderStyle: {
@@ -237,7 +235,6 @@ const styles = StyleSheet.create({
     height: 58,
     borderRadius: 8,
     margin: 10,
-    width: wp(85),
   },
   bannerTextStyle: {
     color: 'white',
@@ -262,7 +259,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderColor: colors.grey,
     margin: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  pickerStyle: {
     alignItems: 'center',
+    height: 58,
   },
 });

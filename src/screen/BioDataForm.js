@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CommmonButton from './CommonButton';
 import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
+import auth from '@react-native-firebase/auth';
 import colors from '../theme/colors';
 
 export default class BioDataForm extends Component {
@@ -257,7 +258,7 @@ export default class BioDataForm extends Component {
                 revisar, aprobar y garantizar que la información que estoy
                 suministrando no afecte a terceras personas.
               </Text>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <CheckBox
                   value={this.state.confirmation}
                   onValueChange={() =>
@@ -266,33 +267,23 @@ export default class BioDataForm extends Component {
                   style={styles.checkbox}
                 />
                 <Text
-                  style={{width: wp(80), fontSize: wp(5), marginTop: hp(2)}}>
+                  style={{width: wp(80), fontSize: wp(4), marginTop: hp(2)}}>
                   Acepto las condiciones y términos de uso de Ayudapp
                 </Text>
               </View>
-              {this.state.confirmation ? (
-                <TouchableOpacity onPress={this.onSubmitButtonPress}>
-                  <View style={styles.ButtonContainer}>
-                    <Text style={[styles.buttonTxt]}>Submit</Text>
-                    <Image
-                      resizeMode="contain"
-                      source={require('../Image/botton-Arrow.png')}
-                      style={{marginRight: 3}}
-                    />
-                  </View>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity>
-                  <View style={styles.ButtonContainerInactive}>
-                    <Text style={[styles.buttonTxt]}>Submit</Text>
-                    <Image
-                      resizeMode="contain"
-                      source={require('../Image/botton-Arrow.png')}
-                      style={{marginRight: 3}}
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
+
+              <TouchableOpacity
+                disabled={!this.state.confirmation}
+                onPress={this.onSubmitButtonPress}>
+                <View style={styles.ButtonContainer}>
+                  <Text style={[styles.buttonTxt]}>Submit</Text>
+                  <Image
+                    resizeMode="contain"
+                    source={require('../Image/botton-Arrow.png')}
+                    style={{marginRight: 3}}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>

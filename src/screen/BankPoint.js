@@ -151,14 +151,13 @@ export default class BankPoint extends Component {
               <Text style={styles.detailTextStyle}>
                 Nombre del responsable (Responsible name)
               </Text>
-
-              <TextInput
-                value={this.state.name}
-                onChangeText={(name) => this.setState({name})}
-                placeholder={'George Woalock '}
-                style={styles.placeholderStyle}
-              />
             </View>
+            <TextInput
+              value={this.state.name}
+              onChangeText={(name) => this.setState({name})}
+              placeholder={'George Woalock '}
+              style={styles.placeholderStyle}
+            />
             <Text style={{fontSize: wp(4), paddingLeft: wp(5)}}>
               Proporcione los datos de ubicación:
             </Text>
@@ -168,7 +167,7 @@ export default class BankPoint extends Component {
             <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValueCountry}
-                style={styles.placeholderStyle}
+                style={styles.pickerStyle}
                 onValueChange={(itemValue, itemIndex) => {
                   this.setState({selectedValueCountry: itemValue});
                   Services.getStatesFromApi(
@@ -192,7 +191,7 @@ export default class BankPoint extends Component {
             <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValueState}
-                style={styles.placeholderStyle}
+                style={styles.pickerStyle}
                 onValueChange={(state, itemIndex) => {
                   this.setState({selectedValueState: state});
                   Services.getCitiesFromApi(
@@ -213,7 +212,7 @@ export default class BankPoint extends Component {
             {/* <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.selectedValue}
-                style={styles.placeholderStyle}
+                style={styles.pickerStyle}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setSelectedValue(itemValue)
                 }>
@@ -227,7 +226,7 @@ export default class BankPoint extends Component {
             <View style={styles.borderStyle}>
               <Picker
                 selectedValue={this.state.city}
-                style={styles.placeholderStyle}
+                style={styles.pickerStyle}
                 onValueChange={(itemValue, itemIndex) =>
                   this.setState({city: itemValue})
                 }>
@@ -385,7 +384,8 @@ const styles = StyleSheet.create({
     height: 58,
     borderRadius: 8,
     margin: 10,
-    width: wp(90),
+    width: wp(95),
+    alignSelf: 'center',
   },
   detailTextStyle: {width: wp(80), fontSize: wp(4), marginTop: hp(1)},
   subContainerStyle: {
@@ -398,8 +398,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderColor: colors.grey,
     margin: 10,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  pickerStyle: {
     alignItems: 'center',
+    height: 58,
   },
   ButtonContainer: {
     flexDirection: 'row',
