@@ -592,6 +592,8 @@ export default class Home extends Component {
                 width: wp(40),
                 resizeMode: 'contain',
                 alignSelf: 'center',
+                marginTop: hp(5),
+                marginBottom: hp(5),
               }}
             />
             <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
