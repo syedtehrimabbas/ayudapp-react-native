@@ -94,7 +94,7 @@ export default class BankPoint extends Component {
     );
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.focusListner = this.props.navigation.addListener('didFocus', () => {
       console.log('pprops here -----', this.props);
       if (this.props.navigation.state.params.latitude !== undefined) {
@@ -110,17 +110,39 @@ export default class BankPoint extends Component {
         longitude: info.coords.longitude,
       }),
     );
-    Services.getTockenForUniversalApi((result) => {
+    Services.getTockenForUniversalApi(async (result) => {
       console.log('userToken', result.token);
       this.setState({accessToken: result.token});
       if (result.isSuccess) {
-        Services.fetchCountries(result.token, (countries) => {
+        await Services.fetchCountries(result.token, async (countries) => {
           console.log('console', countries.data);
           this.setState({countries: countries.data});
           let countryToShow = countries.data.find((i) => {
             return i.country_name === 'Panama';
           });
           this.setState({selectedValueCountry: countryToShow.country_name});
+          await Services.getStatesFromApi(
+            this.state.accessToken,
+            this.state.selectedValueCountry,
+            async (state) => {
+              this.setState({states: state.data});
+              console.log(
+                'state--------------------------------------------------------',
+                this.state.states,
+              );
+              await Services.getCitiesFromApi(
+                this.state.accessToken,
+                this.state.states[0],
+                (cities) => {
+                  console.log(
+                    'cities--------------------------------------------------------',
+                    cities,
+                  );
+                  this.setState({citiesList: cities.data});
+                },
+              );
+            },
+          );
         });
       }
     });

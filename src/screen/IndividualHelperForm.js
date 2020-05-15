@@ -36,34 +36,33 @@ export default class IndividualHelperForm extends Component {
       console.log('userToken', result.token);
       this.setState({accessToken: result.token});
       if (result.isSuccess) {
-        await Services.fetchCountries(result.token, (countries) => {
+        await Services.fetchCountries(result.token, async (countries) => {
           console.log('console', countries.data);
           this.setState({countries: countries.data});
           let countryToShow = countries.data.find((i) => {
             return i.country_name === 'Panama';
           });
           this.setState({selectedValueCountry: countryToShow.country_name});
-          Services.getStatesFromApi(
+          await Services.getStatesFromApi(
             this.state.accessToken,
             this.state.selectedValueCountry,
-            (state) => {
+            async (state) => {
               this.setState({states: state.data});
               console.log(
                 'state--------------------------------------------------------',
                 this.state.states,
               );
-            },
-          );
-
-          Services.getCitiesFromApi(
-            this.state.accessToken,
-            stateName,
-            (cities) => {
-              console.log(
-                'cities--------------------------------------------------------',
-                cities,
+              await Services.getCitiesFromApi(
+                this.state.accessToken,
+                this.state.states[0],
+                (cities) => {
+                  console.log(
+                    'cities--------------------------------------------------------',
+                    cities,
+                  );
+                  this.setState({citiesList: cities.data});
+                },
               );
-              this.setState({citiesList: cities.data});
             },
           );
         });
