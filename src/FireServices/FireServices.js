@@ -97,6 +97,7 @@ class FireServices {
       .set({
         name: user.displayName,
         email: user.email,
+        userConfirmation: 'true',
       })
       .then((profile) => {
         callback({isSuccess: true, response: profile});
@@ -312,6 +313,7 @@ class FireServices {
         Insomnia: Insomnia,
         RequestStatus: 'Pending',
         userInformation: userInformation,
+        userType: 'Needy',
       })
       .then((res) => {
         console.log('requestreas', res);

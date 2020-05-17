@@ -128,8 +128,6 @@ export default class UserCategory extends Component {
       Services.updateUserStatus(userStatus, (res) => {
         if (res.isSuccess) {
           this.setState({loading: false});
-
-          this.props.navigation.navigate('IndividualHelperForm');
         }
       });
     } else if (id === 3) {
@@ -152,7 +150,6 @@ export default class UserCategory extends Component {
       });
     } else if (id === 5) {
       this.setState({loading: false});
-
       this.props.navigation.navigate('Statics', {type: userStatus});
     }
   };

@@ -122,28 +122,24 @@ export default class Login extends Component {
       .then((user) => {
         this.setState({loading: false});
         console.log('-------User-------', user.user._user.uid);
-        auth()
-          .fetchSignInMethodsForEmail(user.user.email)
-          .then((confirmation) => {
-            console.log('-------confirmation-------', confirmation);
-            confirmation.map((i) => {
-              if (i === 'google.com') {
-                AsyncStorage.setItem('USER', user.user._user.uid);
-                this.props.navigation.navigate('UserCategory', {
+        Services.getUserProfile((userProfile) => {
+          console.log('userProfile', userProfile);
+          if (userProfile.user._data.userConfirmation === undefined) {
+            Services.serUserProfile(user.user._user, (profile) => {
+              console.log('profile', profile);
+              if (profile.isSuccess) {
+                this.props.navigation.navigate('BioDataForm', {
                   id: user.user._user.uid,
-                });
-              } else {
-                Services.serUserProfile(user.user._user, (profile) => {
-                  console.log('profile', profile);
-                  if (profile.isSuccess) {
-                    this.props.navigation.navigate('BioDataForm', {
-                      id: user.user._user.uid,
-                    });
-                  }
                 });
               }
             });
-          });
+          } else {
+            AsyncStorage.setItem('USER', user.user._user.uid);
+            this.props.navigation.navigate('UserCategory', {
+              id: user.user._user.uid,
+            });
+          }
+        });
       })
       .catch((error) => {
         console.log('-------error-------');
