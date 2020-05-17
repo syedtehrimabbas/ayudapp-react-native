@@ -41,7 +41,7 @@ export default class Login extends Component {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId:
-        '1063381046055-e55l58se6g6mbhvm3ibeifhh86e8esv2.apps.googleusercontent.com', // webClientId i told you to save somewhere,
+        '1063381046055-s56pbuijtsu6hgkcu3iq0d583k9n9i0j.apps.googleusercontent.com', // webClientId i told you to save somewhere,
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }
