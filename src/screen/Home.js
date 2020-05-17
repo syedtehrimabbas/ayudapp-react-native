@@ -566,9 +566,13 @@ export default class Home extends Component {
       userInformation,
       (response) => {
         console.log('hererer in home response ', response);
-        this.setState({loading: false});
-        alert('successfully submitted');
-        this.props.navigation.navigate('UserCategory');
+        if (response.isSuccess) {
+          this.setState({loading: false});
+          alert('successfully submitted');
+          this.props.navigation.navigate('UserCategory');
+        } else {
+          alert(response.error.message);
+        }
       },
     );
   };

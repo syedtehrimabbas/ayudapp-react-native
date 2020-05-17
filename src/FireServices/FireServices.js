@@ -39,6 +39,7 @@ class FireServices {
         callback({isSuccess: true, data: data});
       })
       .catch((err) => {
+        callback({isSuccess: false, error: err});
         console.log('error ---', err);
       });
   };
@@ -56,6 +57,7 @@ class FireServices {
         callback({isSuccess: true, data: data});
       })
       .catch((err) => {
+        callback({isSuccess: false, error: err});
         console.log('error ---', err);
       });
   };
@@ -73,6 +75,7 @@ class FireServices {
         callback({isSuccess: true, data: data});
       })
       .catch((err) => {
+        callback({isSuccess: false, error: err});
         console.log('error ---', err);
       });
   };
@@ -154,6 +157,9 @@ class FireServices {
       })
       .then((res) => {
         callback({isSuccess: true});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, error: err});
       });
   };
   getUserProfile = (callback) => {
@@ -325,6 +331,9 @@ class FireServices {
           })
           .then(() => {
             callback({isSuccess: true});
+          })
+          .catch((err) => {
+            callback({isSuccess: false, error: err});
           });
       });
   };

@@ -118,34 +118,41 @@ export default class UserCategory extends Component {
     if (id === 1) {
       userStatus = 'Needy';
       Services.updateUserStatus(userStatus, (res) => {
+        this.setState({loading: false});
         if (res.isSuccess) {
-          this.setState({loading: false});
           this.props.navigation.navigate('Home', {type: userStatus});
+        } else {
+          alert(res.error.message);
         }
       });
     } else if (id === 2) {
       userStatus = 'IndevidualHelper';
       Services.updateUserStatus(userStatus, (res) => {
+        this.setState({loading: false});
         if (res.isSuccess) {
-          this.setState({loading: false});
+          this.props.navigation.navigate('IndividualHelperForm');
+        } else {
+          alert(res.error.message);
         }
       });
     } else if (id === 3) {
       userStatus = 'CompanyHelper';
       Services.updateUserStatus(userStatus, (res) => {
+        this.setState({loading: false});
         if (res.isSuccess) {
-          this.setState({loading: false});
-
           this.props.navigation.navigate('IndividualHelperForm');
+        } else {
+          alert(res.error.message);
         }
       });
     } else if (id === 4) {
       userStatus = 'BankPoint';
       Services.updateUserStatus(userStatus, (res) => {
+        this.setState({loading: false});
         if (res.isSuccess) {
-          this.setState({loading: false});
-
           this.props.navigation.navigate('BankPoint', {type: userStatus});
+        } else {
+          alert(res.error.message);
         }
       });
     } else if (id === 5) {
