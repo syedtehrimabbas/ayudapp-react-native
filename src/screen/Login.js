@@ -1,4 +1,4 @@
-import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
+﻿import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
 import {Image, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
 import {
@@ -41,7 +41,7 @@ export default class Login extends Component {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId:
-        '1063381046055-s56pbuijtsu6hgkcu3iq0d583k9n9i0j.apps.googleusercontent.com', // webClientId i told you to save somewhere,
+        '1063381046055-47ro81c91o6hc5uk1g4dt1scp7lb44n7.apps.googleusercontent.com', // webClientId i told you to save somewhere,
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }
