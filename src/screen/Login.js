@@ -143,6 +143,7 @@ export default class Login extends Component {
       })
       .catch((error) => {
         console.log('-------error-------');
+        alert(error.message);
         this.setState({loading: false});
 
         console.log(error);

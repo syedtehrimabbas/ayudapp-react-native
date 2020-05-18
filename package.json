@@ -20,6 +20,7 @@
     "@react-native-firebase/storage": "^6.7.1",
     "react": "16.11.0",
     "react-native": "0.62.2",
+    "react-native-fbsdk": "^1.1.2",
     "react-native-file-picker": "0.0.19",
     "react-native-geocoding": "^0.4.0",
     "react-native-gesture-handler": "^1.6.1",
