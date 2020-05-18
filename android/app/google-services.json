@@ -15,19 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "1063381046055-47ro81c91o6hc5uk1g4dt1scp7lb44n7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayudapp",
+            "certificate_hash": "f157f67785a5d7caf81391ca891bca62c37772ec"
+          }
+        },
+        {
           "client_id": "1063381046055-trcdmner59gf64m0mmochls72srtrfcu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ayudapp",
             "certificate_hash": "6c70a817fc2c33899764b1e9007bec00e699f351"
-          }
-        },
-        {
-          "client_id": "1063381046055-s56pbuijtsu6hgkcu3iq0d583k9n9i0j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ayudapp",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
