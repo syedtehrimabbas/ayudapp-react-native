@@ -1,4 +1,5 @@
-﻿import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
+﻿import {AccessToken, LoginManager} from 'react-native-fbsdk';
+import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
 import {Image, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
 import {
@@ -96,7 +97,7 @@ export default class Login extends Component {
               Soy nuevo en Ayudapp
             </Text>
           </View>
-          <TouchableOpacity onPress={this.onGoogleSignIn}>
+          <TouchableOpacity onPress={this.onLoginFacebook}>
             <Image
               resizeMode="contain"
               style={styles.googleimageStyle}
@@ -108,6 +109,53 @@ export default class Login extends Component {
       </View>
     );
   }
+
+  onLoginFacebook = async () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
+      .then((result) => {
+        console.log('fb login ', result);
+        if (result.isCancelled) {
+        } else {
+          return AccessToken.getCurrentAccessToken();
+        }
+      })
+      .then((data) => {
+        console.log('fb data ', data);
+        const facebookCredential = auth.FacebookAuthProvider.credential(
+          data.accessToken,
+        );
+        return auth().signInWithCredential(facebookCredential);
+      })
+      .then((res) => {
+        console.log('user response ', res);
+
+        Services.getUserProfile((userProfile) => {
+          console.log('userProfile', userProfile);
+          if (userProfile.user._data === undefined) {
+            Services.serUserProfile(res.user._auth._user._user, (profile) => {
+              console.log('profile', profile);
+              if (profile.isSuccess) {
+                console.log('this', this);
+
+                this.props.navigation.navigate('BioDataForm', {
+                  id: res.user._auth._user._user.uid,
+                });
+              }
+            });
+          } else {
+            AsyncStorage.setItem('USER', res.user._auth._user._user.uid);
+            console.log('this', this);
+            this.props.navigation.navigate('UserCategory', {
+              id: res.user._auth._user._user.uid,
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   onGoogleSignIn = async () => {
     this.setState({loading: true});
     await GoogleSignin.signIn()

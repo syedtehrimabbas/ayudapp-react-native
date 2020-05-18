@@ -93,13 +93,26 @@ class FireServices {
         console.log('error', e);
       });
   };
+  updateUserProfile = (user, callback) => {
+    firestore()
+      .collection('Profile')
+      .doc(user.uid)
+      .update({
+        name: user.displayName,
+        email: user.email,
+      })
+      .then((profile) => {
+        callback({isSuccess: true, response: profile});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, err: err});
+      });
+  };
   serUserProfile = (user, callback) => {
     firestore()
       .collection('Profile')
       .doc(user.uid)
       .set({
-        name: user.displayName,
-        email: user.email,
         userConfirmation: 'true',
       })
       .then((profile) => {
