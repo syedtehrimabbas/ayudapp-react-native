@@ -101,7 +101,7 @@ export default class Login extends Component {
             <Image
               resizeMode="contain"
               style={styles.googleimageStyle}
-              source={Images.google}
+              source={Images.facebook}
             />
           </TouchableOpacity>
           <Loader loading={this.state.loading} />

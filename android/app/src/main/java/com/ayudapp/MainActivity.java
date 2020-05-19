@@ -31,7 +31,7 @@ public class MainActivity extends ReactActivity {
         printHashKey(MainActivity.this);
     }
 
-    public static void printHashKey(Context pContext) {
+    public void printHashKey(Context pContext) {
         try {
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
