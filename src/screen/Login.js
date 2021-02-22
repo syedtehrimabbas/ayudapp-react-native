@@ -1,26 +1,52 @@
+﻿import {AccessToken, LoginManager} from 'react-native-fbsdk';
 import {GoogleProvider, GoogleSignin} from 'react-native-google-signin';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import CommmonButton from './CommonButton';
 import Images from '../Image/Images';
+import Loader from '../screen/Loader';
 import Services from '../FireServices/FireServices';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
+import colors from '../theme/colors';
 
 export default class Login extends Component {
   componentDidMount() {
+    async function requestLocationPermission() {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message:
+              'This App needs access to your location ' +
+              'so we can know where you are.',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('You can use locations ');
+        } else {
+          console.log('Location permission denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId:
-        '1063381046055-e55l58se6g6mbhvm3ibeifhh86e8esv2.apps.googleusercontent.com', // webClientId i told you to save somewhere,
+        '1063381046055-47ro81c91o6hc5uk1g4dt1scp7lb44n7.apps.googleusercontent.com', // webClientId i told you to save somewhere,
       forceConsentPrompt: true, // if you want to show the authorization prompt at each login
     });
   }
+  state = {loading: false};
 
   render() {
     return (
@@ -52,10 +78,11 @@ export default class Login extends Component {
               source={Images.lock}
             />
           </View>
-          <CommmonButton
+
+          <View
             style={{
               paddingTop: hp(2),
-              backgroundColor: 'tomato',
+              backgroundColor: colors.purple,
               alignSelf: 'center',
               justifyContant: 'center',
               alignItems: 'center',
@@ -64,21 +91,73 @@ export default class Login extends Component {
               paddingRight: wp(15),
               marginTop: hp(5),
               borderRadius: wp(1),
-            }}
-            Text="Soy nuevo en Ayudapp"
-          />
-          <TouchableOpacity onPress={this.onGoogleSignIn}>
+            }}>
+            <Text style={{color: 'white', fontWeight: 'bold'}}>
+              {' '}
+              Soy nuevo en Ayudapp
+            </Text>
+          </View>
+          <TouchableOpacity onPress={this.onLoginFacebook}>
             <Image
               resizeMode="contain"
               style={styles.googleimageStyle}
-              source={Images.google}
+              source={Images.facebook}
             />
           </TouchableOpacity>
+          <Loader loading={this.state.loading} />
         </View>
       </View>
     );
   }
+
+  onLoginFacebook = async () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email'])
+      .then((result) => {
+        console.log('fb login ', result);
+        if (result.isCancelled) {
+        } else {
+          return AccessToken.getCurrentAccessToken();
+        }
+      })
+      .then((data) => {
+        console.log('fb data ', data);
+        const facebookCredential = auth.FacebookAuthProvider.credential(
+          data.accessToken,
+        );
+        return auth().signInWithCredential(facebookCredential);
+      })
+      .then((res) => {
+        console.log('user response ', res);
+
+        Services.getUserProfile((userProfile) => {
+          console.log('userProfile', userProfile);
+          if (userProfile.user._data === undefined) {
+            Services.serUserProfile(res.user._auth._user._user, (profile) => {
+              console.log('profile', profile);
+              if (profile.isSuccess) {
+                console.log('this', this);
+
+                this.props.navigation.navigate('BioDataForm', {
+                  id: res.user._auth._user._user.uid,
+                });
+              }
+            });
+          } else {
+            AsyncStorage.setItem('USER', res.user._auth._user._user.uid);
+            console.log('this', this);
+            this.props.navigation.navigate('UserCategory', {
+              id: res.user._auth._user._user.uid,
+            });
+          }
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   onGoogleSignIn = async () => {
+    this.setState({loading: true});
     await GoogleSignin.signIn()
       .then((data) => {
         console.log('-------data-------', data);
@@ -89,11 +168,32 @@ export default class Login extends Component {
         return auth().signInWithCredential(credential);
       })
       .then((user) => {
-        console.log('-------User-------', user);
-        this.props.navigation.navigate('BioDataForm');
+        this.setState({loading: false});
+        console.log('-------User-------', user.user._user.uid);
+        Services.getUserProfile((userProfile) => {
+          console.log('userProfile', userProfile);
+          if (userProfile.user._data.userConfirmation === undefined) {
+            Services.serUserProfile(user.user._user, (profile) => {
+              console.log('profile', profile);
+              if (profile.isSuccess) {
+                this.props.navigation.navigate('BioDataForm', {
+                  id: user.user._user.uid,
+                });
+              }
+            });
+          } else {
+            AsyncStorage.setItem('USER', user.user._user.uid);
+            this.props.navigation.navigate('UserCategory', {
+              id: user.user._user.uid,
+            });
+          }
+        });
       })
       .catch((error) => {
         console.log('-------error-------');
+        alert(error.message);
+        this.setState({loading: false});
+
         console.log(error);
       });
   };

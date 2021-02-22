@@ -1,19 +1,28 @@
+import {PermissionsAndroid, StyleSheet, Text, View} from 'react-native';
 import React, {Component} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 
 import BankPoint from './src/screen/BankPoint';
 import BioDataForm from './src/screen/BioDataForm';
 import Home from './src/screen/Home';
+import {Image} from 'react-native';
+import Images from './src/Image/Images';
 import IndividualHelperForm from './src/screen/IndividualHelperForm';
+import IndividualScreenMap from './src/screen/IndividualScreenMap';
 import Login from './src/screen/Login';
 import NeedyForm from './src/screen/NeedyForm';
 import Requests from './src/screen/Requests';
 import RequsetForm from './src/screen/RequsetForm';
 import Splash from './src/screen/Splash';
+import Statics from './src/screen/Statics';
 import UserCategory from './src/screen/UserCategory';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
+import mapForBank from './src/screen/mapForBank';
 
 console.disableYellowBox = true;
 
@@ -22,10 +31,20 @@ export default class App extends Component {
     return <AppContainer />;
   }
 }
-// const HomeStackNavigator = createBottomTabNavigator(
+
+// const HomeStackNavigator = createStackNavigator(
 //   {
+//     UserCategory: {
+//       screen: UserCategory,
+//     },
 //     Home: {
 //       screen: Home,
+//     },
+//     IndividualHelperForm: {
+//       screen: IndividualHelperForm,
+//     },
+//     BankPoint: {
+//       screen: BankPoint,
 //     },
 //     Requests: {
 //       screen: Requests,
@@ -35,28 +54,79 @@ export default class App extends Component {
 //     headerMode: 'none',
 //   },
 // );
+const HomeStackNavigator = createBottomTabNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      tabBarLabel: 'Home',
+      tabBarIcon: ({tintColor}) => (
+        <Image
+          source={Images.home}
+          style={{
+            height: heightPercentageToDP(4),
+            width: widthPercentageToDP(7),
+            resizeMode: 'contain',
+            tintColor: tintColor,
+          }}
+        />
+      ),
+    },
+  },
+  Requests: {
+    screen: Requests,
+    navigationOptions: {
+      tabBarLabel: 'Requests',
+      tabBarIcon: ({tintColor}) => (
+        <Image
+          source={Images.request}
+          style={{
+            height: heightPercentageToDP(4),
+            width: widthPercentageToDP(7),
+            resizeMode: 'contain',
+            tintColor: tintColor,
+          }}
+        />
+      ),
+    },
+  },
+});
 const LoginStackNavigator = createStackNavigator(
   {
-    // Splash: {
-    //   screen: Splash,
+    // UserCategory: {
+    //   screen: UserCategory,
     // },
+    Splash: {
+      screen: Splash,
+    },
+    Statics: {
+      screen: Statics,
+    },
     Login: {
       screen: Login,
     },
     BioDataForm: {
       screen: BioDataForm,
     },
-    UserCategory: {
-      screen: UserCategory,
+    mapForBank: {
+      screen: mapForBank,
     },
     Home: {
-      screen: Home,
+      screen: HomeStackNavigator,
+    },
+    UserCategory: {
+      screen: UserCategory,
     },
     IndividualHelperForm: {
       screen: IndividualHelperForm,
     },
     BankPoint: {
       screen: BankPoint,
+    },
+    Requests: {
+      screen: Requests,
+    },
+    IndividualScreenMap: {
+      screen: IndividualScreenMap,
     },
   },
   {
@@ -67,4 +137,4 @@ const mainStackNavigator = createSwitchNavigator({
   LoginStackNavigator,
   // HomeStackNavigator,
 });
-const AppContainer = createAppContainer(mainStackNavigator);
+const AppContainer = createAppContainer(LoginStackNavigator);

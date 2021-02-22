@@ -20,7 +20,11 @@ class CommmonButton extends React.Component {
         />
       );
     } else {
-      return <Text style={styles.TextStyle}>{this.props.Text} </Text>;
+      return (
+        <Text style={[styles.TextStyle, this.props.buttonTextStyle]}>
+          {this.props.Text}{' '}
+        </Text>
+      );
     }
   }
   render() {
@@ -52,7 +56,7 @@ const styles = {
     marginBottom: 0,
     borderRadius: 2,
   },
-  TextStyle: {color: 'white', fontSize: wp('5%')},
+  TextStyle: {color: 'white', fontSize: wp('4%')},
 };
 export default CommmonButton;
 // if (props === props.ImageSource) {

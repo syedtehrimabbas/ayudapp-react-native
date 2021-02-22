@@ -1,4 +1,6 @@
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 class FireServices {
   getTockenForUniversalApi = (callback) => {
@@ -7,8 +9,9 @@ class FireServices {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization:
-          'Bearer PSjAYmhK5ANj9aU0bu4N41gB0idOzOUVILqKe5SgWFh_srv54kfvddjSRSxjYkD08CY',
+        'api-token':
+          'PSjAYmhK5ANj9aU0bu4N41gB0idOzOUVILqKe5SgWFh_srv54kfvddjSRSxjYkD08CY',
+        'user-email': 'syedtehrimabbas@gmail.com',
       },
     })
       .then(async (res) => {
@@ -26,24 +29,369 @@ class FireServices {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfZW1haWwiOiJzeWVkdGVocmltYWJiYXNAZ21haWwuY29tIiwiYXBpX3Rva2VuIjoiUFNqQVltaEs1QU5qOWFVMGJ1NE40MWdCMGlkT3pPVVZJTHFLZTVTZ1dGaF9zcnY1NGtmdmRkalNSU3hqWWtEMDhDWSJ9LCJleHAiOjE1ODg1MDA4NDl9.Flf1WW5FgN4u2WVkHTdJaTGcAy60NQAVAHSz4M7xlSU',
+        'user-email': 'syedtehrimabbas@gmail.com',
+        Authorization: 'Bearer ' + token,
       },
     })
       .then(async (res) => {
-        console.log('res ---', res.json());
         const data = await res.json();
         console.log('data ---', data);
-
-        callback({isSuccess: true, token: data});
+        callback({isSuccess: true, data: data});
       })
       .catch((err) => {
+        callback({isSuccess: false, error: err});
         console.log('error ---', err);
       });
   };
-  //   updateUserProfile = () => {
-  //       firestore().
-  //   };
+  getStatesFromApi = (accessToken, cont, callback) => {
+    fetch(`https://www.universal-tutorial.com/api/states/${cont}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        console.log('data ---', data);
+        callback({isSuccess: true, data: data});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, error: err});
+        console.log('error ---', err);
+      });
+  };
+  getCitiesFromApi = (accessToken, state, callback) => {
+    fetch(`https://www.universal-tutorial.com/api/cities/${state}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        console.log('data ---', data);
+        callback({isSuccess: true, data: data});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, error: err});
+        console.log('error ---', err);
+      });
+  };
+  uploadImage = (path, callback) => {
+    const storageRef = storage().ref(`file`);
+    let fileUri = decodeURI(path);
+    const task = storageRef.putFile(fileUri);
+    task
+      .then((res) => {
+        console.log('res-----', res);
+        callback({isSuccess: true, res: res});
+      })
+      .catch((e) => {
+        callback({isSuccess: false, error: error});
+        console.log('error', e);
+      });
+  };
+  updateUserProfile = (user, callback) => {
+    firestore()
+      .collection('Profile')
+      .doc(user.uid)
+      .update({
+        name: user.displayName,
+        email: user.email,
+      })
+      .then((profile) => {
+        callback({isSuccess: true, response: profile});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, err: err});
+      });
+  };
+  serUserProfile = (user, callback) => {
+    firestore()
+      .collection('Profile')
+      .doc(user.uid)
+      .set({
+        userConfirmation: 'true',
+      })
+      .then((profile) => {
+        callback({isSuccess: true, response: profile});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, err: err});
+      });
+  };
+  updateUserBiodata = (
+    fname,
+    lname,
+    phone,
+    otherPhone,
+    country,
+    province,
+    district,
+    city,
+    town,
+    building,
+    time,
+    callback,
+  ) => {
+    firestore()
+      .collection('Profile')
+      .doc(auth().currentUser.uid)
+      .update({
+        biodata: {
+          firstName: fname,
+          lastName: lname,
+          phone: phone,
+          otherPhone: otherPhone,
+          country: country,
+          province: province,
+          district: district,
+          city: city,
+          town: town,
+          building: building,
+          time: time,
+        },
+      })
+      .then((profile) => {
+        callback({isSuccess: true, response: profile});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, err: err});
+      });
+  };
+  updateUserStatus = (type, callback) => {
+    firestore()
+      .collection('Profile')
+      .doc(auth().currentUser.uid)
+      .update({
+        userType: type,
+      })
+      .then((res) => {
+        callback({isSuccess: true});
+      })
+      .catch((err) => {
+        callback({isSuccess: false, error: err});
+      });
+  };
+  getUserProfile = (callback) => {
+    firestore()
+      .collection('Profile')
+      .doc(auth().currentUser.uid)
+      .get()
+      .then((res) => {
+        callback({isSuccess: true, user: res});
+      });
+  };
+  getRequestedOrderByUser = (callback) => {
+    let requestsArray = [];
+    firestore()
+      .collection('userRequests')
+      .get()
+      .then((res) => {
+        res.forEach((documentSnapshoot) => {
+          requestsArray.push({
+            id: documentSnapshoot.id,
+            requests: documentSnapshoot.data(),
+          });
+          callback({isSuccess: true, requests: requestsArray});
+        });
+      });
+  };
+  getRequestedOrder = (id, callback) => {
+    firestore()
+      .collection('userRequests')
+      .doc(id)
+      .get()
+      .then((res) => {
+        callback({isSuccess: true, order: res});
+      });
+  };
+  needyUserForm = (
+    name,
+    ageRange1,
+    ageRange2,
+    ageRange3,
+    ageRange4,
+    ageRange5,
+    employment,
+    accountDetail,
+    helpType,
+    coronaDiseaseType,
+    eggs,
+    soap,
+    Medications,
+    userType,
+    latitude,
+    longitude,
+    currentTime,
+    diabetes,
+    hipertensión,
+    cancer,
+    other,
+    Washingsoap,
+    Cloro,
+    Bathsoap,
+    Disinfectant,
+    Alcohol,
+    Toothpaste,
+    Deodorant,
+    Babydiapers,
+    rice,
+    grains,
+    Flour,
+    Eggs,
+    Pastas,
+    Vegetables,
+    Fruit,
+    Sugar,
+    Salt,
+    cannedfood,
+    Oil,
+    Meat,
+    Bread,
+    Cheese,
+    Ham,
+    Water,
+    Creams,
+    Milk,
+    babymilk,
+    Dogfood,
+    Catfood,
+    Hypertension,
+    Diabetes,
+    FluCold,
+    Gastrointestinal,
+    Anxiety,
+    Insomnia,
+    userInformation,
+    callback,
+  ) => {
+    firestore()
+      .collection('userRequests')
+      .add({
+        name: name,
+        ageRange1: ageRange1,
+        ageRange2: ageRange2,
+        ageRange3: ageRange3,
+        ageRange4: ageRange4,
+        ageRange5: ageRange5,
+        employment: employment,
+        accountDetail: accountDetail,
+        helpType: helpType,
+        coronaDiseaseType: coronaDiseaseType,
+        eggs: eggs,
+        soap: soap,
+        medications: Medications,
+        userType: userType,
+        userId: auth().currentUser.uid,
+        latitude: latitude,
+        longitude: longitude,
+        orderTime: currentTime,
+
+        diabetes: diabetes,
+        hipertensión: hipertensión,
+        cancer: cancer,
+        other: other,
+        Washingsoap: Washingsoap,
+        Cloro: Cloro,
+        Bathsoap: Bathsoap,
+        Disinfectant: Disinfectant,
+        Alcohol: Alcohol,
+        Toothpaste: Toothpaste,
+        Deodorant: Deodorant,
+        Babydiapers: Babydiapers,
+        rice: rice,
+        grains: grains,
+
+        Flour: Flour,
+        Eggs: Eggs,
+        Pastas: Pastas,
+        Vegetables: Vegetables,
+        Fruit: Fruit,
+        Sugar: Sugar,
+        Salt: Salt,
+        cannedfood: cannedfood,
+        Oil: Oil,
+        Meat: Meat,
+        Bread: Bread,
+        Cheese: Cheese,
+        Ham: Ham,
+        Water: Water,
+        Creams: Creams,
+        Milk: Milk,
+        babymilk: babymilk,
+        Dogfood: Dogfood,
+        Catfood: Catfood,
+        Hypertension: Hypertension,
+        Diabetes: Diabetes,
+        FluCold: FluCold,
+        Gastrointestinal: Gastrointestinal,
+        Anxiety: Anxiety,
+        Insomnia: Insomnia,
+        RequestStatus: 'Pending',
+        userInformation: userInformation,
+        userType: 'Needy',
+      })
+      .then((res) => {
+        console.log('requestreas', res);
+        firestore()
+          .collection('Profile')
+          .doc(auth().currentUser.uid)
+          .update({
+            requestId: res.id,
+          })
+          .then(() => {
+            callback({isSuccess: true});
+          })
+          .catch((err) => {
+            callback({isSuccess: false, error: err});
+          });
+      });
+  };
+  addBankDetail = (
+    name,
+    country,
+    province,
+    district,
+    city,
+    town,
+    buildingAddress,
+    time,
+    term,
+    image,
+    userType,
+    latitude,
+    longitude,
+    callback,
+  ) => {
+    firestore()
+      .collection('userRequests')
+      .add({
+        name: name,
+        country: country,
+        province: province,
+        district: district,
+        city: city,
+        town: town,
+        building: buildingAddress,
+        time: time,
+        term: term,
+        image: image,
+        userType: userType,
+        latitude: latitude,
+        longitude: longitude,
+        userId: auth().currentUser.uid,
+      })
+      .then(() => {
+        callback({isSuccess: true});
+      })
+      .catch((e) => {
+        callback({isSuccess: false});
+      });
+  };
 }
+
 const Services = new FireServices();
 export default Services;
